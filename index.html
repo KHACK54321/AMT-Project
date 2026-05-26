@@ -10,7 +10,7 @@
   --bg:#060b18;--bg2:#0d1526;--bg3:#111d35;
   --panel:rgba(13,21,38,.85);--panel2:rgba(17,29,53,.9);
   --cyan:#00d4ff;--blue:#0080ff;--green:#00ff8c;
-  --amber:#ffaa00;--red:#ff3b5c;
+  --amber:#ffaa00;--red:#ff3b5c;--purple:#bf80ff;
   --text:#c8d8f0;--text2:#7a9bbf;--text3:#3d5470;
   --border:rgba(0,212,255,.12);--border2:rgba(0,212,255,.22);--border3:rgba(0,212,255,.06);
   --nav-h:62px;--safe:env(safe-area-inset-bottom,0px);--r:6px;--r2:4px;
@@ -36,9 +36,9 @@ input,textarea,select{user-select:text;}
 .tp.on{display:block;}
 @keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 #nav{position:fixed;bottom:0;left:0;right:0;height:var(--nav-h);z-index:100;background:rgba(6,11,24,.97);border-top:1px solid var(--border);backdrop-filter:blur(20px);display:flex;align-items:center;padding-bottom:var(--safe);}
-.nb{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0 2px;border:none;background:none;color:var(--text3);cursor:pointer;transition:all .2s;font-family:'IBM Plex Sans',sans-serif;position:relative;}
-.nb .ni{font-size:17px;transition:all .2s;}
-.nb .nl{font-size:7px;font-weight:600;letter-spacing:.3px;text-transform:uppercase;transition:all .2s;}
+.nb{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:5px 0 1px;border:none;background:none;color:var(--text3);cursor:pointer;transition:all .2s;font-family:'IBM Plex Sans',sans-serif;position:relative;}
+.nb .ni{font-size:15px;transition:all .2s;}
+.nb .nl{font-size:6px;font-weight:600;letter-spacing:.3px;text-transform:uppercase;transition:all .2s;}
 .nb.on{color:var(--cyan);}
 .nb.on::after{content:'';position:absolute;bottom:-1px;left:15%;right:15%;height:2px;background:var(--cyan);border-radius:1px;}
 .nb.on .ni{transform:translateY(-2px);}
@@ -48,6 +48,8 @@ input,textarea,select{user-select:text;}
 .gc-b{border-color:rgba(0,128,255,.2);background:rgba(0,128,255,.06);}
 .gc-g{border-color:rgba(0,255,140,.15);background:rgba(0,255,140,.04);}
 .gc-a{border-color:rgba(255,170,0,.2);background:rgba(255,170,0,.05);}
+.gc-r{border-color:rgba(255,59,92,.2);background:rgba(255,59,92,.04);}
+.gc-p{border-color:rgba(191,128,255,.2);background:rgba(191,128,255,.04);}
 .label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
 .label::before{content:'';width:12px;height:1px;background:var(--cyan);opacity:.5;}
 /* HOME */
@@ -174,6 +176,49 @@ input,textarea,select{user-select:text;}
 .bank-tx-del{font-size:12px;color:var(--text3);cursor:pointer;padding:4px 6px;flex-shrink:0;}
 .bm-quick-btn{background:rgba(0,212,255,.07);border:1px solid var(--border);border-radius:20px;padding:6px 12px;color:var(--text2);font-family:'IBM Plex Mono',monospace;font-size:10px;cursor:pointer;white-space:nowrap;transition:all .15s;}
 .bm-quick-btn:active{background:rgba(0,212,255,.2);color:var(--cyan);border-color:var(--cyan);}
+/* DEBT */
+.debt-summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:0;}
+.debt-summary-card{border-radius:var(--r2);padding:12px;text-align:center;}
+.debt-summary-card.g{background:rgba(0,255,140,.06);border:1px solid rgba(0,255,140,.2);}
+.debt-summary-card.r{background:rgba(255,59,92,.05);border:1px solid rgba(255,59,92,.2);}
+.debt-summary-lbl{font-size:9px;color:var(--text3);letter-spacing:.8px;text-transform:uppercase;margin-bottom:4px;font-family:'IBM Plex Mono',monospace;}
+.debt-summary-val{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;}
+.debt-summary-val.g{color:var(--green);}
+.debt-summary-val.r{color:var(--red);}
+.debt-type-toggle{display:flex;border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;margin-bottom:12px;}
+.dtt-btn{flex:1;padding:10px 6px;background:transparent;border:none;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;color:var(--text3);}
+.dtt-btn.sel-g{background:rgba(0,255,140,.12);color:var(--green);}
+.dtt-btn.sel-r{background:rgba(255,59,92,.1);color:var(--red);}
+.debt-card{background:var(--panel);border:1px solid var(--border);border-radius:var(--r);padding:12px;margin-bottom:8px;overflow:hidden;transition:transform .5s cubic-bezier(.4,0,.2,1),opacity .5s,max-height .5s cubic-bezier(.4,0,.2,1),padding .5s,margin .5s,border .5s;}
+.debt-card.owe-me{border-left:2px solid rgba(0,255,140,.5);}
+.debt-card.i-owe{border-left:2px solid rgba(255,59,92,.5);}
+.debt-card.clearing{transform:translateX(70px);opacity:0;max-height:0!important;padding-top:0!important;padding-bottom:0!important;margin-bottom:0!important;border-width:0!important;}
+.debt-card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
+.debt-name{font-size:15px;font-weight:600;color:var(--text);line-height:1.2;}
+.debt-sub{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--text3);margin-top:3px;}
+.debt-note-txt{font-size:11px;color:var(--text2);margin-top:4px;font-style:italic;opacity:.8;}
+.debt-amount{font-family:'Rajdhani',sans-serif;font-size:26px;font-weight:700;line-height:1;text-align:right;}
+.debt-amount.g{color:var(--green);}
+.debt-amount.r{color:var(--red);}
+.debt-orig{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--text3);text-align:right;margin-top:2px;}
+.debt-bar-wrap{height:3px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden;margin:6px 0 3px;}
+.debt-bar-fill{height:100%;border-radius:2px;transition:width .9s cubic-bezier(.4,0,.2,1);}
+.debt-bar-fill.g{background:linear-gradient(90deg,rgba(0,255,140,.4),var(--green));}
+.debt-bar-fill.r{background:linear-gradient(90deg,rgba(255,59,92,.4),var(--red));}
+.debt-bar-info{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.debt-bar-pct{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--text3);}
+.debt-bar-paid{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--text3);}
+.debt-social-lbl{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--amber);margin:4px 0 8px;}
+.debt-actions{display:flex;gap:7px;align-items:center;}
+.debt-pay-btn{flex:1;background:rgba(0,212,255,.06);border:1px solid rgba(0,212,255,.2);border-radius:var(--r2);padding:8px 10px;color:var(--cyan);font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;letter-spacing:.3px;text-align:center;}
+.debt-pay-btn:active{background:rgba(0,212,255,.18);}
+.debt-del-btn{width:32px;height:32px;flex-shrink:0;background:rgba(255,59,92,.06);border:1px solid rgba(255,59,92,.15);border-radius:var(--r2);color:var(--red);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.debt-done-badge{flex:1;text-align:center;color:var(--green);font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;padding:8px 0;}
+.debt-section-lbl{display:flex;align-items:center;gap:8px;margin:12px 0 8px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);}
+.debt-section-lbl::after{content:'';flex:1;height:1px;background:var(--border);}
+/* CLEARED FLASH */
+@keyframes debtClearFlash{0%{box-shadow:0 0 0 0 rgba(0,255,140,.6)}50%{box-shadow:0 0 0 14px rgba(0,255,140,0)}100%{box-shadow:0 0 0 0 rgba(0,255,140,0)}}
+.debt-clearing-flash{animation:debtClearFlash .8s ease forwards;}
 /* SETTINGS */
 .si-item{display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:1px solid var(--border3);}
 .si-item:last-child{border-bottom:none;}
@@ -190,6 +235,9 @@ input,textarea,select{user-select:text;}
 .set-del-btn{background:rgba(255,59,92,.06);border:1px solid rgba(255,59,92,.2);border-radius:var(--r2);padding:12px 8px;color:var(--red);font-size:18px;cursor:pointer;text-align:center;line-height:1.5;transition:all .2s;font-family:'IBM Plex Mono',monospace;}
 .set-del-btn span{display:block;font-size:10px;color:var(--text3);margin-top:3px;letter-spacing:.3px;}
 .set-del-btn:active{background:rgba(255,59,92,.15);}
+/* ── NOTIFICATION BADGE on habit tab ── */
+.nb-badge{position:absolute;top:4px;right:calc(50% - 12px);width:8px;height:8px;border-radius:50%;background:var(--red);display:none;}
+.nb-badge.vis{display:block;}
 /* EMPTY */
 .empty{text-align:center;padding:30px 20px;color:var(--text3);}
 .empty-ico{font-size:36px;margin-bottom:8px;opacity:.4;}
@@ -254,6 +302,15 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
 #ul-content::-webkit-scrollbar{display:none;}
 .ul-loading{text-align:center;padding:30px;color:var(--text3);font-family:'IBM Plex Mono',monospace;font-size:11px;}
 .ul-err{color:var(--red);text-align:center;padding:20px;font-family:'IBM Plex Mono',monospace;font-size:11px;}
+/* NOTIF BANNER */
+@keyframes notifPulse{0%,100%{opacity:1}50%{opacity:.6}}
+.notif-banner{background:rgba(255,170,0,.08);border:1px solid rgba(255,170,0,.25);border-radius:var(--r2);padding:10px 12px;margin-bottom:10px;display:flex;align-items:center;gap:10px;cursor:pointer;}
+.notif-banner-ico{font-size:20px;flex-shrink:0;animation:notifPulse 2s ease-in-out infinite;}
+.notif-banner-txt{flex:1;}
+.notif-banner-title{font-size:12px;font-weight:600;color:var(--amber);margin-bottom:2px;}
+.notif-banner-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text3);}
+/* TIME INPUT */
+input[type=time]{color-scheme:dark;}
 </style>
 </head>
 <body>
@@ -266,7 +323,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
     <div id="hdr-date"></div>
   </div>
   <div id="content">
- 
+
     <!-- HOME -->
     <div class="tp on" id="tp-home">
       <div class="gc gc-c day-hero">
@@ -283,14 +340,15 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
       </div>
       <div class="gc" id="home-today"></div>
       <div class="gc gc-g" id="home-habits-preview"></div>
+      <div class="gc gc-p" id="home-debt-preview"></div>
     </div>
- 
+
     <!-- JOURNAL -->
     <div class="tp" id="tp-journal">
       <div class="th"><div class="stitle">NHẬT KÝ</div><button class="btn-add" onclick="openJM()">+ THÊM</button></div>
       <div id="j-list"></div>
     </div>
- 
+
     <!-- EXPENSE -->
     <div class="tp" id="tp-expense">
       <div class="gc gc-a">
@@ -308,10 +366,11 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
       <div class="gc gc-b"><div class="label">THÁNG NÀY</div><div id="month-chart"></div><div id="month-stats"></div></div>
       <div class="gc" id="history-gc" style="display:none"><div class="label">LỊCH SỬ THÁNG CŨ</div><div id="month-history"></div></div>
     </div>
- 
+
     <!-- HABITS -->
     <div class="tp" id="tp-habits">
       <div class="th"><div class="stitle">THÓI QUEN</div><button class="btn-add" onclick="openHabM()">+ THÊM</button></div>
+      <div id="hab-undone-banner"></div>
       <div class="hab-hero">
         <div class="hab-stat"><div class="hab-stat-val" id="h-done" style="color:var(--green)">0</div><div class="hab-stat-lbl">HOÀN THÀNH</div></div>
         <div class="hab-stat"><div class="hab-stat-val" id="h-total" style="color:var(--text2)">0</div><div class="hab-stat-lbl">TỔNG SỐ</div></div>
@@ -319,7 +378,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
       </div>
       <div id="hab-list"></div>
     </div>
- 
+
     <!-- LOCKET -->
     <div class="tp" id="tp-locket">
       <div class="th" style="margin-bottom:8px;"><div class="stitle">LOCKET</div><div class="tl-photo-cnt" id="photo-cnt"><span>0</span> ảnh</div></div>
@@ -334,7 +393,36 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
       </div>
       <div id="photo-timeline"></div>
     </div>
- 
+
+    <!-- DEBT -->
+    <div class="tp" id="tp-debt">
+      <div class="th" style="margin-bottom:8px;">
+        <div class="stitle">GHI NỢ</div>
+        <button class="btn-add" onclick="openDebtM()" style="border-color:var(--purple);color:var(--purple);">+ GHI NỢ</button>
+      </div>
+      <div class="gc gc-p" style="margin-bottom:10px;">
+        <div class="label" style="margin-bottom:10px;">TỔNG QUAN</div>
+        <div class="debt-summary-grid">
+          <div class="debt-summary-card g">
+            <div class="debt-summary-lbl">HỌ NỢ MÌNH</div>
+            <div class="debt-summary-val g" id="debt-total-oweme">0đ</div>
+          </div>
+          <div class="debt-summary-card r">
+            <div class="debt-summary-lbl">MÌNH NỢ HỌ</div>
+            <div class="debt-summary-val r" id="debt-total-iowe">0đ</div>
+          </div>
+        </div>
+      </div>
+      <div id="debt-oweme-section">
+        <div class="debt-section-lbl" style="color:var(--green);">💚 HỌ NỢ MÌNH</div>
+        <div id="debt-oweme-list"></div>
+      </div>
+      <div id="debt-iowe-section">
+        <div class="debt-section-lbl" style="color:var(--red);">❤️ MÌNH NỢ HỌ</div>
+        <div id="debt-iowe-list"></div>
+      </div>
+    </div>
+
     <!-- BANK -->
     <div class="tp" id="tp-bank">
       <div class="gc gc-g" style="text-align:center;padding:22px 14px 18px;">
@@ -368,7 +456,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
         <div id="bank-tx-list"></div>
       </div>
     </div>
- 
+
     <!-- SETTINGS -->
     <div class="tp" id="tp-settings">
       <div class="gc">
@@ -390,7 +478,42 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
           </div>
           <button class="btn-s" style="width:100%;margin-top:2px;" onclick="randomBg()">🔀 ĐỔI NỀN NGẪU NHIÊN</button>
         </div>
+        <!-- ── NEW: SOUND TOGGLE ── -->
+        <div class="si-item" style="border-top:1px solid var(--border3);margin-top:4px;">
+          <div>
+            <div class="si-item-lbl">🔊 Âm Thanh Hiệu Ứng</div>
+            <div class="si-desc">Bật/tắt âm thanh khi ghi nợ &amp; trả tiền</div>
+          </div>
+          <div class="sw" id="sw-sound" onclick="toggleSound()"></div>
+        </div>
       </div>
+
+      <!-- ── NEW: NOTIFICATION SECTION ── -->
+      <div class="gc" style="border-color:rgba(255,170,0,.2);background:rgba(255,170,0,.03);">
+        <div class="label" style="color:var(--amber);">🔔 THÔNG BÁO THÓI QUEN</div>
+        <div class="si-item" style="padding-top:4px;">
+          <div>
+            <div class="si-item-lbl">Nhắc Nhở Hàng Ngày</div>
+            <div class="si-desc">Thông báo các thói quen chưa hoàn thành</div>
+          </div>
+          <div class="sw" id="sw-notif" onclick="toggleNotif()"></div>
+        </div>
+        <div id="notif-extra" style="display:none;padding:8px 0 2px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+            <div style="flex:1;">
+              <div style="font-size:10px;color:var(--text3);margin-bottom:5px;font-family:'IBM Plex Mono',monospace;letter-spacing:.5px;">⏰ GIỜ NHẮC NHỞ</div>
+              <input type="time" id="notif-time-input" value="21:00" class="di" style="margin-bottom:0;font-size:16px;color:var(--amber);border-color:rgba(255,170,0,.3);" onchange="saveNotifTime(this.value)">
+            </div>
+            <button class="btn-s" onclick="testNotif()" style="flex-shrink:0;margin-top:18px;border-color:rgba(255,170,0,.4);color:var(--amber);font-size:10px;padding:9px 11px;">🔔 THỬ</button>
+          </div>
+          <div id="notif-status" style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text3);background:rgba(0,0,0,.2);border-radius:var(--r2);padding:7px 10px;"></div>
+        </div>
+        <div id="notif-perm-warn" style="display:none;background:rgba(255,59,92,.07);border:1px solid rgba(255,59,92,.2);border-radius:var(--r2);padding:9px 11px;margin-top:6px;">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--red);">⚠ TRÌNH DUYỆT ĐÃ CHẶN THÔNG BÁO</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:3px;">Vào cài đặt trình duyệt → Quyền → Thông báo → Cho phép trang này.</div>
+        </div>
+      </div>
+
       <div class="gc">
         <div class="label">🗃️ DỮ LIỆU</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;">
@@ -399,6 +522,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
           <button class="set-del-btn" onclick="doConfirm('photos')">📷<br><span>Xóa ảnh Locket</span></button>
           <button class="set-del-btn" onclick="doConfirm('habits')">🎯<br><span>Xóa thói quen</span></button>
           <button class="set-del-btn" onclick="doConfirm('bank')">🏦<br><span>Xóa ngân hàng</span></button>
+          <button class="set-del-btn" onclick="doConfirm('debt')">💸<br><span>Xóa ghi nợ</span></button>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:7px;">
           <button class="btn-s" style="width:100%;font-size:10px;" onclick="doConfirm('att')">↺ RESET ĐIỂM DANH</button>
@@ -409,27 +533,28 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
         <div class="label">📋 PHIÊN BẢN</div>
         <div class="si-item" style="padding:10px 0;">
           <div>
-            <div class="si-item-lbl" style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--cyan)">//&nbsp;NHẬT KÝ v2.1</div>
+            <div class="si-item-lbl" style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--cyan)">//&nbsp;NHẬT KÝ v2.3</div>
             <div class="si-desc" style="margin-top:4px;">Lưu cục bộ · Không cloud · Không tracking</div>
           </div>
           <button class="btn-s" onclick="openUpdateLog()">CHANGELOG</button>
         </div>
       </div>
     </div>
- 
+
   </div>
- 
+
   <nav id="nav">
     <button class="nb on" onclick="goTab('home')" data-t="home"><span class="ni">🏠</span><span class="nl">HOME</span></button>
-    <button class="nb" onclick="goTab('journal')" data-t="journal"><span class="ni">📖</span><span class="nl">NHẬT KÝ</span></button>
-    <button class="nb" onclick="goTab('expense')" data-t="expense"><span class="ni">💰</span><span class="nl">CHI TIÊU</span></button>
-    <button class="nb" onclick="goTab('habits')" data-t="habits"><span class="ni">🎯</span><span class="nl">THÓI QUEN</span></button>
+    <button class="nb" onclick="goTab('journal')" data-t="journal"><span class="ni">📖</span><span class="nl">NHK</span></button>
+    <button class="nb" onclick="goTab('expense')" data-t="expense"><span class="ni">💰</span><span class="nl">CHI</span></button>
+    <button class="nb" onclick="goTab('habits')" data-t="habits" style="position:relative;"><span class="ni">🎯</span><span class="nl">TQ</span><span class="nb-badge" id="hab-nav-badge"></span></button>
     <button class="nb" onclick="goTab('locket')" data-t="locket"><span class="ni">📷</span><span class="nl">LOCKET</span></button>
-    <button class="nb" onclick="goTab('bank')" data-t="bank"><span class="ni">🏦</span><span class="nl">NGÂN HÀNG</span></button>
-    <button class="nb" onclick="goTab('settings')" data-t="settings"><span class="ni">⚙️</span><span class="nl">CÀI ĐẶT</span></button>
+    <button class="nb" onclick="goTab('debt')" data-t="debt"><span class="ni">💸</span><span class="nl">GHI NỢ</span></button>
+    <button class="nb" onclick="goTab('bank')" data-t="bank"><span class="ni">🏦</span><span class="nl">NH</span></button>
+    <button class="nb" onclick="goTab('settings')" data-t="settings"><span class="ni">⚙️</span><span class="nl">CĐ</span></button>
   </nav>
 </div>
- 
+
 <!-- JOURNAL MODAL -->
 <div class="mov" id="jm">
   <div class="ms">
@@ -453,7 +578,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
     </div>
   </div>
 </div>
- 
+
 <!-- HABIT MODAL -->
 <div class="mov" id="hm">
   <div class="ms">
@@ -468,7 +593,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
     </div>
   </div>
 </div>
- 
+
 <!-- LOCKET MODAL -->
 <div class="mov" id="lm">
   <div class="ms">
@@ -482,7 +607,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
     </div>
   </div>
 </div>
- 
+
 <!-- BANK MODAL -->
 <div class="mov" id="bm">
   <div class="ms">
@@ -498,7 +623,42 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
     </div>
   </div>
 </div>
- 
+
+<!-- DEBT ADD MODAL -->
+<div class="mov" id="dm">
+  <div class="ms">
+    <div class="mh"></div>
+    <div class="mtitle">// GHI NỢ MỚI</div>
+    <div class="debt-type-toggle">
+      <button class="dtt-btn sel-g" id="dtt-oweme" onclick="setDebtType('owe_me')">💚 HỌ NỢ MÌNH</button>
+      <button class="dtt-btn" id="dtt-iowe" onclick="setDebtType('i_owe')">❤️ MÌNH NỢ HỌ</button>
+    </div>
+    <input class="mi" id="dm-name" type="text" placeholder="Tên người..." style="width:100%;margin-bottom:9px;">
+    <input class="mi" id="dm-amt" type="number" inputmode="decimal" placeholder="Số tiền (đ) — 0 = nợ tình cảm 💛" style="width:100%;margin-bottom:9px;font-size:16px;">
+    <input class="mi" id="dm-note" type="text" placeholder="Ghi chú (không bắt buộc)..." style="width:100%;margin-bottom:9px;">
+    <input class="di" type="date" id="dm-date">
+    <div class="mfooter">
+      <button class="btn-cancel" onclick="closeDebtM()">HỦY</button>
+      <button id="dm-save-btn" onclick="saveDebtEntry()" style="flex:1;padding:12px;border:none;border-radius:var(--r2);font-size:13px;font-weight:600;font-family:'IBM Plex Mono',monospace;cursor:pointer;background:var(--green);color:var(--bg);">GHI NỢ 💸</button>
+    </div>
+  </div>
+</div>
+
+<!-- PAYMENT MODAL -->
+<div class="mov" id="pm">
+  <div class="ms">
+    <div class="mh"></div>
+    <div class="mtitle" id="pm-title">// TRẢ NỢ</div>
+    <div id="pm-info" style="background:rgba(0,212,255,.04);border:1px solid var(--border);border-radius:var(--r2);padding:10px 12px;margin-bottom:12px;"></div>
+    <input class="mi" id="pm-amt" type="number" inputmode="decimal" placeholder="Số tiền trả..." style="width:100%;margin-bottom:9px;font-size:18px;">
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;" id="pm-quick"></div>
+    <div class="mfooter">
+      <button class="btn-cancel" onclick="closePayM()">HỦY</button>
+      <button id="pm-save-btn" onclick="makePayment()" style="flex:1;padding:12px;border:none;border-radius:var(--r2);font-size:13px;font-weight:600;font-family:'IBM Plex Mono',monospace;cursor:pointer;background:var(--cyan);color:var(--bg);">XÁC NHẬN TRẢ 💸</button>
+    </div>
+  </div>
+</div>
+
 <!-- DATE PICKER -->
 <div class="mov" id="dp-modal">
   <div class="ms" style="padding-bottom:calc(20px + var(--safe));">
@@ -524,7 +684,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
     </div>
   </div>
 </div>
- 
+
 <!-- CONFIRM -->
 <div class="cov" id="cov">
   <div class="cbox">
@@ -536,7 +696,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
     </div>
   </div>
 </div>
- 
+
 <!-- UPDATE LOG -->
 <div id="ul-modal">
   <div id="ul-sheet">
@@ -548,26 +708,33 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
     </div>
   </div>
 </div>
- 
+
 <input type="file" id="file-gallery" accept="image/*" style="display:none">
 <input type="file" id="file-camera" accept="image/*" capture="environment" style="display:none">
 <button id="scroll-top" onclick="document.getElementById('content').scrollTo({top:0,behavior:'smooth'})">▲</button>
 <div id="toast"></div>
- 
+
 <script>
 'use strict';
- 
+
 /* ── CONSTANTS ── */
-const K={fl:'nkcs_fl',journal:'nkcs_j',expToday:'nkcs_et',expDate:'nkcs_ed',expDaily:'nkcs_edl',expMonthly:'nkcs_em',habits:'nkcs_hab',habLog:'nkcs_hlog',animeBg:'nkcs_animebg',bgCount:'nkcs_bgcount',bgInterval:'nkcs_bgint',bank:'nkcs_bank'};
- 
+const K={
+  fl:'nkcs_fl',journal:'nkcs_j',expToday:'nkcs_et',expDate:'nkcs_ed',
+  expDaily:'nkcs_edl',expMonthly:'nkcs_em',habits:'nkcs_hab',habLog:'nkcs_hlog',
+  animeBg:'nkcs_animebg',bgCount:'nkcs_bgcount',bgInterval:'nkcs_bgint',
+  bank:'nkcs_bank',debt:'nkcs_debt',
+  sound:'nkcs_snd',          /* false = tắt âm thanh */
+  notif:'nkcs_notif',        /* true = bật thông báo */
+  notifTime:'nkcs_ntime'     /* "HH:MM" */
+};
+
 const HAB_ICOS=['💪','🏃','📚','🧘','💧','🥗','😴','✍️','🎯','🚴','🏋️','🧠','🎸','🌿','🤝','☕','🛁','🧹','🏊','⚽','🏀','🎮','🎨','🎬','🎵','🌅','🧗','🤸','🚶','🛌','🍎','🥦','🚭','📷','🐕','🌱','🧺','🪥','💊','🩺','🧴','📝','🔔','⏰','🌙','☀️','❤️','🫀','🦷','👁️'];
- 
 const MOOD_EMOJIS=['😊','😄','🤩','😎','🥰','😂','😌','🙂','😐','😔','😢','😭','😤','😡','🤯','😴','🤒','🥳','😱','🤔','😏','🥺','😇','🫠','🤗','😋','🤑','💪','🔥','❤️','🌈','🫶','✨','💯','🎉','😈','👻','🤫','🫡','🥹'];
- 
+
 /* ── STORAGE ── */
 function ls(k){try{return JSON.parse(localStorage.getItem(k));}catch(e){return null;}}
 function lss(k,v){localStorage.setItem(k,JSON.stringify(v));}
- 
+
 /* ── HELPERS ── */
 function today(){return new Date().toISOString().slice(0,10);}
 function thisMonth(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');}
@@ -581,14 +748,14 @@ const EMOJI_MAP=r=>{const v=parseFloat(r);if(v===0)return'💀';if(v<1)return'�
 const HINT_MAP=r=>{const v=parseFloat(r);if(v===0)return'NGÀY KINH KHỦNG';if(v<1)return'NGÀY TỆ CỰC KỲ';if(v<2)return'NGÀY TỆ QUÁ';if(v<3)return'NGÀY BÌNH THƯỜNG';if(v<4)return'NGÀY ỔN ÁP';if(v<5)return'NGÀY VUI VẺ';return'NGÀY TUYỆT VỜI';};
 function starsHTML(r,sz=13){r=parseFloat(r)||0;let h='<div class="sr">';for(let i=1;i<=5;i++){if(r>=i)h+=`<span class="ss f" style="font-size:${sz}px">★</span>`;else if(r>i-1){const p=Math.round((r-(i-1))*100);h+=`<span class="ss p" style="font-size:${sz}px;--f:${p}%">★</span>`;}else h+=`<span class="ss" style="font-size:${sz}px">★</span>`;}return h+`<span class="sv-lbl">${r.toFixed(1)}</span></div>`;}
 let _tt;function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');clearTimeout(_tt);_tt=setTimeout(()=>el.classList.remove('show'),2400);}
- 
+
 /* ── HEADER ── */
 function updateHdr(){const n=new Date();const WD=['CN','T2','T3','T4','T5','T6','T7'];document.getElementById('hdr-date').textContent=`[${WD[n.getDay()]}] ${String(n.getDate()).padStart(2,'0')}/${String(n.getMonth()+1).padStart(2,'0')}/${n.getFullYear()} ${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')}`;}
- 
+
 /* ── ATTENDANCE ── */
 function initAttendance(){if(!ls(K.fl))lss(K.fl,today());}
 function getDays(){return diffDays(ls(K.fl)||today(),today())+1;}
- 
+
 /* ── EXPENSE ROLLUP ── */
 function checkRollup(){
   const td=today();const last=ls(K.expDate);
@@ -612,7 +779,7 @@ function rollupMonth(mon){
     lss(K.expDaily,nd);
   }
 }
- 
+
 /* ── TABS ── */
 let curTab='home';
 function goTab(tab){
@@ -626,10 +793,11 @@ function goTab(tab){
   if(tab==='expense')renderExpense();
   if(tab==='habits')renderHabits();
   if(tab==='locket')renderLocket();
+  if(tab==='debt')renderDebt();
   if(tab==='bank')renderBank();
   if(tab==='settings')renderSettings();
 }
- 
+
 /* ── HOME ── */
 function renderHome(){
   document.getElementById('day-num').textContent=getDays();
@@ -664,11 +832,28 @@ function renderHome(){
   }else{
     hpEl.innerHTML=`<div class="empty" style="padding:12px 0;"><div class="empty-ico">🎯</div><div class="empty-txt">CHƯA CÓ THÓI QUEN NÀO</div><button class="btn-add" style="margin-top:9px;" onclick="goTab('habits');setTimeout(openHabM,280)">+ TẠO THÓI QUEN</button></div>`;
   }
+  const dpEl=document.getElementById('home-debt-preview');
+  const debts=debtData();
+  const activeOweme=debts.filter(d=>d.type==='owe_me'&&d.currentAmount>0);
+  const activeIowe=debts.filter(d=>d.type==='i_owe'&&d.currentAmount>0);
+  if(debts.length){
+    const toOweme=activeOweme.reduce((s,d)=>s+d.currentAmount,0);
+    const toIowe=activeIowe.reduce((s,d)=>s+d.currentAmount,0);
+    dpEl.innerHTML=`<div class="label">💸 GHI NỢ</div>
+      <div style="display:flex;gap:10px;">
+        <div style="flex:1;text-align:center;"><div style="font-size:9px;color:var(--text3);margin-bottom:3px;letter-spacing:.8px">HỌ NỢ MÌNH</div><div style="font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;color:var(--green)">${fmtMoney(toOweme)}</div><div style="font-size:9px;color:var(--text3)">${activeOweme.length} khoản</div></div>
+        <div style="width:1px;background:var(--border);"></div>
+        <div style="flex:1;text-align:center;"><div style="font-size:9px;color:var(--text3);margin-bottom:3px;letter-spacing:.8px">MÌNH NỢ HỌ</div><div style="font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;color:var(--red)">${fmtMoney(toIowe)}</div><div style="font-size:9px;color:var(--text3)">${activeIowe.length} khoản</div></div>
+      </div>
+      <button class="btn-add" style="width:100%;margin-top:10px;border-color:var(--purple);color:var(--purple);" onclick="goTab('debt')">XEM CHI TIẾT →</button>`;
+  }else{
+    dpEl.innerHTML=`<div class="empty" style="padding:12px 0;"><div class="empty-ico">💸</div><div class="empty-txt">CHƯA CÓ KHOẢN NỢ NÀO</div><button class="btn-add" style="margin-top:9px;border-color:var(--purple);color:var(--purple);" onclick="goTab('debt');setTimeout(openDebtM,280)">+ GHI NỢ ĐẦU TIÊN</button></div>`;
+  }
+  updateHabBadge();
 }
- 
+
 /* ── JOURNAL ── */
 let editJId=null,curRating=3,curMood='🙂';
- 
 function renderJournal(){
   const j=ls(K.journal)||[];const el=document.getElementById('j-list');
   if(!j.length){el.innerHTML=`<div class="empty"><div class="empty-ico">📖</div><div class="empty-txt">CHƯA CÓ NHẬT KÝ NÀO<br>GHI LẠI NHỮNG KHOẢNH KHẮC ĐẦU TIÊN</div></div>`;return;}
@@ -681,7 +866,6 @@ function renderJournal(){
       <div class="je-txt">${e.text||'(Không có nội dung)'}</div>
     </div>`).join('');
 }
- 
 function openJM(dateStr){
   editJId=null;curMood='🙂';
   document.getElementById('j-date').value=dateStr||today();
@@ -729,7 +913,7 @@ function setRating(v){
 }
 document.getElementById('r-slider').addEventListener('input',function(){setRating(parseFloat(this.value));});
 document.getElementById('j-text').addEventListener('input',function(){if(this.value.length>500)this.value=this.value.slice(0,500);document.getElementById('j-cc').textContent=this.value.length;});
- 
+
 /* ── EXPENSE ── */
 function renderExpense(){
   const items=ls(K.expToday)||[];const total=items.reduce((s,i)=>s+i.amount,0);
@@ -771,9 +955,18 @@ function renderMonthChart(){
   if(mks.length){he.style.display='block';document.getElementById('month-history').innerHTML=mks.map(mk=>`<div class="mi-item"><div class="mi-m">${fmtMonthLbl(mk)}</div><div class="mi-a">${fmtMoney(monthly[mk].total)}</div></div>`).join('');}
   else he.style.display='none';
 }
- 
+
 /* ── HABITS ── */
 let selHabIco=HAB_ICOS[0];
+
+/* Badge on nav tab */
+function updateHabBadge(){
+  const habits=ls(K.habits)||[];const log=ls(K.habLog)||{};const td=today();const tLog=log[td]||{};
+  const undone=habits.filter(h=>!tLog[h.id]);
+  const badge=document.getElementById('hab-nav-badge');
+  if(badge)badge.classList.toggle('vis',undone.length>0&&habits.length>0);
+}
+
 function openHabM(){
   document.getElementById('hab-name').value='';selHabIco=HAB_ICOS[0];
   document.getElementById('hab-ico-row').innerHTML=HAB_ICOS.map(ic=>`<button class="ico-btn${ic===selHabIco?' sel':''}" onclick="selIco('${ic}',this)">${ic}</button>`).join('');
@@ -792,6 +985,22 @@ function renderHabits(){
   const habits=ls(K.habits)||[];const log=ls(K.habLog)||{};const td=today();const tLog=log[td]||{};const wk=getWeekDates();
   const doneCnt=habits.filter(h=>tLog[h.id]).length;const pct=habits.length?Math.round(doneCnt/habits.length*100):0;
   document.getElementById('h-done').textContent=doneCnt;document.getElementById('h-total').textContent=habits.length;document.getElementById('h-pct').textContent=pct+'%';
+
+  /* ── Undone banner ── */
+  const bannerEl=document.getElementById('hab-undone-banner');
+  const undone=habits.filter(h=>!tLog[h.id]);
+  if(undone.length>0&&habits.length>0){
+    bannerEl.innerHTML=`<div class="notif-banner" onclick="goTab('habits')">
+      <div class="notif-banner-ico">🔔</div>
+      <div class="notif-banner-txt">
+        <div class="notif-banner-title">${undone.length} thói quen chưa hoàn thành hôm nay</div>
+        <div class="notif-banner-sub">${undone.map(h=>h.ico+' '+h.name).join(' · ')}</div>
+      </div>
+    </div>`;
+  }else{
+    bannerEl.innerHTML='';
+  }
+
   const el=document.getElementById('hab-list');
   if(!habits.length){el.innerHTML=`<div class="empty"><div class="empty-ico">🎯</div><div class="empty-txt">CHƯA CÓ THÓI QUEN NÀO<br>TẠO THÓI QUEN ĐẦU TIÊN</div></div>`;return;}
   el.innerHTML=habits.map(h=>{
@@ -804,11 +1013,12 @@ function renderHabits(){
       <button style="background:none;border:none;color:var(--text3);font-size:13px;cursor:pointer;padding:4px;margin-left:2px;" onclick="event.stopPropagation();delHab('${h.id}')">✕</button>
     </div>`;
   }).join('');
+  updateHabBadge();
 }
 function calcStreak(habId,log){let s=0;const d=new Date();while(true){const k=d.toISOString().slice(0,10);if(log[k]&&log[k][habId])s++;else break;d.setDate(d.getDate()-1);}return s;}
 function toggleHab(id){const td=today();const log=ls(K.habLog)||{};if(!log[td])log[td]={};log[td][id]=!log[td][id];if(!log[td][id])delete log[td][id];lss(K.habLog,log);renderHabits();renderHome();}
 function delHab(id){doConfirmCustom('XÓA THÓI QUEN','Xóa thói quen này?',()=>{lss(K.habits,(ls(K.habits)||[]).filter(h=>h.id!==id));renderHabits();renderHome();toast('> ĐÃ XÓA');});}
- 
+
 /* ── INDEXEDDB ── */
 const IDB_NAME='NhatKyDB',IDB_STORE='photos',IDB_VER=1;let _db=null;
 function openDB(){return new Promise((res,rej)=>{if(_db){res(_db);return;}const req=indexedDB.open(IDB_NAME,IDB_VER);req.onupgradeneeded=e=>{const db=e.target.result;if(!db.objectStoreNames.contains(IDB_STORE))db.createObjectStore(IDB_STORE,{keyPath:'id'}).createIndex('date','date',{unique:false});};req.onsuccess=e=>{_db=e.target.result;res(_db);};req.onerror=e=>rej(e.target.error);});}
@@ -818,7 +1028,7 @@ function idbDelete(id){return openDB().then(db=>new Promise((res,rej)=>{const re
 function idbDeleteAll(){return openDB().then(db=>new Promise((res,rej)=>{const req=db.transaction(IDB_STORE,'readwrite').objectStore(IDB_STORE).clear();req.onsuccess=()=>res();req.onerror=e=>rej(e.target.error);}));}
 function idbCount(){return openDB().then(db=>new Promise(res=>{const req=db.transaction(IDB_STORE,'readonly').objectStore(IDB_STORE).count();req.onsuccess=()=>res(req.result||0);req.onerror=()=>res(0);})).catch(()=>0);}
 function syncPhotoCount(){idbCount().then(n=>{const el=document.getElementById('s-photos');if(el)el.textContent=n;});}
- 
+
 /* ── LOCKET ── */
 let pendingBlob=null,lkFilterMode='all',lkFilterDateVal='';
 function trigGallery(){document.getElementById('file-gallery').click();}
@@ -874,7 +1084,7 @@ function renderLocket(){
   });
 }
 function delPhoto(id){doConfirmCustom('XÓA ẢNH','Xóa ảnh này?',()=>{idbDelete(id).then(()=>{document.getElementById('card-'+id)?.remove();idbCount().then(n=>{document.getElementById('photo-cnt').innerHTML=`<span>${n}</span> ảnh`;syncPhotoCount();if(n===0)renderLocket();});toast('> ĐÃ XÓA');});});}
- 
+
 /* ── DATE PICKER ── */
 let dpYear=0,dpMonth=0,dpPhotoDates=new Set();
 function openDatePicker(){
@@ -903,7 +1113,223 @@ function renderDpGrid(){
 }
 function dpPickDate(ds){closeDatePicker();lkFilterDate(ds);}
 document.getElementById('dp-modal').addEventListener('click',function(e){if(e.target===this)closeDatePicker();});
- 
+
+/* ════════════════════════════════════════════════
+   ── DEBT FEATURE ──
+   ════════════════════════════════════════════════ */
+
+/* ── AUDIO SYNTHESIS ── */
+let _audioCtx=null;
+function getAudioCtx(){
+  if(!_audioCtx){try{_audioCtx=new(window.AudioContext||window.webkitAudioContext)();}catch(e){}}
+  return _audioCtx;
+}
+
+function playDebtSound(type){
+  /* ── Respect sound toggle ── */
+  if(ls(K.sound)===false)return;
+
+  const ctx=getAudioCtx();
+  if(!ctx)return;
+  if(ctx.state==='suspended')ctx.resume();
+  const now=ctx.currentTime;
+
+  if(type==='add'){
+    const boom=ctx.createOscillator();const bGain=ctx.createGain();
+    boom.type='sine';
+    boom.frequency.setValueAtTime(100,now);
+    boom.frequency.exponentialRampToValueAtTime(38,now+0.75);
+    bGain.gain.setValueAtTime(0.38,now);
+    bGain.gain.exponentialRampToValueAtTime(0.001,now+0.9);
+    boom.connect(bGain);bGain.connect(ctx.destination);
+    boom.start(now);boom.stop(now+0.95);
+    [440,370,311,260].forEach((freq,i)=>{
+      const o=ctx.createOscillator();const g=ctx.createGain();
+      o.type='sawtooth';o.frequency.value=freq;
+      const t=now+0.18+i*0.12;
+      g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(0.07,t+0.05);g.gain.exponentialRampToValueAtTime(0.001,t+0.22);
+      o.connect(g);g.connect(ctx.destination);o.start(t);o.stop(t+0.28);
+    });
+    const sub=ctx.createOscillator();const sGain=ctx.createGain();
+    sub.type='sine';sub.frequency.setValueAtTime(55,now);sub.frequency.exponentialRampToValueAtTime(28,now+0.6);
+    sGain.gain.setValueAtTime(0.2,now+0.05);sGain.gain.exponentialRampToValueAtTime(0.001,now+0.7);
+    sub.connect(sGain);sGain.connect(ctx.destination);sub.start(now+0.05);sub.stop(now+0.75);
+  }
+
+  if(type==='pay'){
+    const o1=ctx.createOscillator();const g1=ctx.createGain();
+    o1.type='sine';o1.frequency.setValueAtTime(1400,now);o1.frequency.exponentialRampToValueAtTime(700,now+0.12);
+    g1.gain.setValueAtTime(0.3,now);g1.gain.exponentialRampToValueAtTime(0.001,now+0.14);
+    o1.connect(g1);g1.connect(ctx.destination);o1.start(now);o1.stop(now+0.16);
+    const o2=ctx.createOscillator();const g2=ctx.createGain();
+    o2.type='sine';o2.frequency.setValueAtTime(2200,now+0.02);
+    g2.gain.setValueAtTime(0.12,now+0.02);g2.gain.exponentialRampToValueAtTime(0.001,now+0.13);
+    o2.connect(g2);g2.connect(ctx.destination);o2.start(now+0.02);o2.stop(now+0.16);
+    const o3=ctx.createOscillator();const g3=ctx.createGain();
+    o3.type='sine';o3.frequency.setValueAtTime(900,now+0.06);
+    g3.gain.setValueAtTime(0.08,now+0.06);g3.gain.exponentialRampToValueAtTime(0.001,now+0.18);
+    o3.connect(g3);g3.connect(ctx.destination);o3.start(now+0.06);o3.stop(now+0.2);
+  }
+
+  if(type==='cleared'){
+    const freqs=[523.25,659.25,783.99,1046.50];
+    freqs.forEach((freq,i)=>{
+      const o=ctx.createOscillator();const g=ctx.createGain();
+      o.type='sine';o.frequency.value=freq;
+      const t=now+i*0.11;
+      g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(0.24,t+0.05);g.gain.exponentialRampToValueAtTime(0.001,t+0.65);
+      o.connect(g);g.connect(ctx.destination);o.start(t);o.stop(t+0.7);
+    });
+    const sh=ctx.createOscillator();const shG=ctx.createGain();
+    sh.type='sine';sh.frequency.value=2093;
+    const shT=now+0.42;
+    shG.gain.setValueAtTime(0,shT);shG.gain.linearRampToValueAtTime(0.12,shT+0.06);shG.gain.exponentialRampToValueAtTime(0.001,shT+0.9);
+    sh.connect(shG);shG.connect(ctx.destination);sh.start(shT);sh.stop(shT+1.0);
+    const lo=ctx.createOscillator();const loG=ctx.createGain();
+    lo.type='sine';lo.frequency.value=130.81;
+    loG.gain.setValueAtTime(0,now);loG.gain.linearRampToValueAtTime(0.15,now+0.08);loG.gain.exponentialRampToValueAtTime(0.001,now+0.8);
+    lo.connect(loG);loG.connect(ctx.destination);lo.start(now);lo.stop(now+0.85);
+  }
+}
+
+/* ── DEBT DATA ── */
+function debtData(){return ls(K.debt)||[];}
+function saveDebtData(d){lss(K.debt,d);}
+
+/* ── DEBT MODAL ── */
+let debtType='owe_me';
+function openDebtM(){
+  debtType='owe_me';
+  document.getElementById('dm-name').value='';
+  document.getElementById('dm-amt').value='';
+  document.getElementById('dm-note').value='';
+  document.getElementById('dm-date').value=today();
+  updateDebtTypeUI();
+  document.getElementById('dm').classList.add('open');
+  setTimeout(()=>document.getElementById('dm-name').focus(),350);
+}
+function closeDebtM(){document.getElementById('dm').classList.remove('open');}
+function setDebtType(type){debtType=type;updateDebtTypeUI();}
+function updateDebtTypeUI(){
+  const og=document.getElementById('dtt-oweme');const oi=document.getElementById('dtt-iowe');
+  og.className='dtt-btn'+(debtType==='owe_me'?' sel-g':'');
+  oi.className='dtt-btn'+(debtType==='i_owe'?' sel-r':'');
+  const btn=document.getElementById('dm-save-btn');
+  btn.style.background=debtType==='owe_me'?'var(--green)':'var(--red)';btn.style.color='var(--bg)';
+}
+function saveDebtEntry(){
+  const name=document.getElementById('dm-name').value.trim();if(!name){toast('!! NHẬP TÊN NGƯỜI');return;}
+  const amt=parseFloat(document.getElementById('dm-amt').value)||0;
+  const note=document.getElementById('dm-note').value.trim();
+  const date=document.getElementById('dm-date').value||today();
+  const n=new Date();const time=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');
+  const debts=debtData();
+  debts.unshift({id:Date.now()+'',name,type:debtType,originalAmount:amt,currentAmount:amt,note,date,time});
+  saveDebtData(debts);closeDebtM();
+  playDebtSound('add');renderDebt();renderHome();
+  if(debtType==='owe_me')toast(`> ${name} NỢ MÌNH ${amt>0?fmtMoney(amt):'tình cảm 💛'}`);
+  else toast(`> MÌNH NỢ ${name} ${amt>0?fmtMoney(amt):'tình cảm 💛'}`);
+}
+
+/* ── PAYMENT MODAL ── */
+let payDebtId=null;
+function openPayM(id){
+  const debts=debtData();const d=debts.find(x=>x.id===id);if(!d)return;
+  payDebtId=id;const isG=d.type==='owe_me';
+  document.getElementById('pm-title').textContent=`// TRẢ NỢ: ${d.name}`;
+  document.getElementById('pm-info').innerHTML=`
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <div style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace;margin-bottom:3px;">${isG?'HỌ NỢ MÌNH':'MÌNH NỢ HỌ'}</div>
+        <div style="font-size:14px;font-weight:600;color:var(--text);">${d.name}</div>
+        ${d.note?`<div style="font-size:11px;color:var(--text3);margin-top:2px;font-style:italic;">${d.note}</div>`:''}
+      </div>
+      <div style="text-align:right;">
+        <div style="font-family:'Rajdhani',sans-serif;font-size:28px;font-weight:700;color:${isG?'var(--green)':'var(--red)'};">${fmtMoney(d.currentAmount)}</div>
+        ${d.originalAmount!==d.currentAmount?`<div style="font-size:9px;color:var(--text3);font-family:'IBM Plex Mono',monospace;">/${fmtMoney(d.originalAmount)} gốc</div>`:''}
+      </div>
+    </div>`;
+  document.getElementById('pm-amt').value='';
+  const candidates=[d.currentAmount,Math.round(d.currentAmount/2),50000,100000,200000,500000].filter((v,i,a)=>v>0&&a.indexOf(v)===i&&v<=d.currentAmount).slice(0,5);
+  document.getElementById('pm-quick').innerHTML=candidates.map(a=>`<button class="bm-quick-btn" onclick="document.getElementById('pm-amt').value=${a}">${a===d.currentAmount?'💸 TRẢ HẾT':fmtMoney(a)}</button>`).join('');
+  document.getElementById('pm').classList.add('open');
+  setTimeout(()=>document.getElementById('pm-amt').focus(),350);
+}
+function closePayM(){document.getElementById('pm').classList.remove('open');payDebtId=null;}
+function makePayment(){
+  if(!payDebtId)return;
+  const amt=parseFloat(document.getElementById('pm-amt').value);
+  if(!amt||amt<=0){toast('!! NHẬP SỐ TIỀN HỢP LỆ');return;}
+  const debts=debtData();const idx=debts.findIndex(d=>d.id===payDebtId);if(idx<0)return;
+  const d=debts[idx];if(amt>d.currentAmount){toast('!! SỐ TIỀN VƯỢT QUÁ NỢ CÒN LẠI');return;}
+  const newAmt=Math.max(0,d.currentAmount-amt);
+  debts[idx].currentAmount=newAmt;saveDebtData(debts);closePayM();
+  if(newAmt===0){
+    playDebtSound('cleared');toast(`🎉 ${d.name} ĐÃ HẾT NỢ! TUYỆT!`);
+    const card=document.getElementById('dcard-'+d.id);
+    if(card){
+      card.classList.add('debt-clearing-flash');
+      setTimeout(()=>{
+        const h=card.offsetHeight+parseInt(getComputedStyle(card).marginBottom);
+        card.style.maxHeight=h+'px';card.style.overflow='hidden';
+        requestAnimationFrame(()=>{card.classList.add('clearing');});
+        setTimeout(()=>{card.remove();renderDebt();renderHome();},550);
+      },850);
+    }else{renderDebt();renderHome();}
+  }else{
+    playDebtSound('pay');toast(`> ĐÃ TRẢ ${fmtMoney(amt)} · CÒN ${fmtMoney(newAmt)}`);renderDebt();
+  }
+}
+
+/* ── RENDER DEBT ── */
+function renderDebt(){
+  const debts=debtData();
+  const oweme=debts.filter(d=>d.type==='owe_me');const iowe=debts.filter(d=>d.type==='i_owe');
+  const totalOweme=oweme.reduce((s,d)=>s+d.currentAmount,0);const totalIowe=iowe.reduce((s,d)=>s+d.currentAmount,0);
+  document.getElementById('debt-total-oweme').textContent=fmtMoney(totalOweme);
+  document.getElementById('debt-total-iowe').textContent=fmtMoney(totalIowe);
+  function renderList(list,elId,type){
+    const el=document.getElementById(elId);
+    if(!list.length){el.innerHTML=`<div class="empty" style="padding:14px 0;"><div class="empty-ico">${type==='owe_me'?'💚':'❤️'}</div><div class="empty-txt">${type==='owe_me'?'KHÔNG AI NỢ MÌNH':'MÌNH KHÔNG NỢ AI'}</div></div>`;return;}
+    el.innerHTML=list.map(d=>{
+      const isG=d.type==='owe_me';const pct=d.originalAmount>0?(d.currentAmount/d.originalAmount*100):0;
+      const paid=d.originalAmount>0?(d.originalAmount-d.currentAmount):0;const isSocial=d.originalAmount===0;
+      return `<div class="debt-card ${isG?'owe-me':'i-owe'}" id="dcard-${d.id}">
+        <div class="debt-card-top">
+          <div style="flex:1;min-width:0;padding-right:8px;">
+            <div class="debt-name">${d.name}</div>
+            <div class="debt-sub">${fmtDate(d.date)} · ${d.time}</div>
+            ${d.note?`<div class="debt-note-txt">"${d.note}"</div>`:''}
+          </div>
+          <div style="flex-shrink:0;">
+            <div class="debt-amount ${isG?'g':'r'}">${fmtMoney(d.currentAmount)}</div>
+            ${d.originalAmount!==d.currentAmount&&!isSocial?`<div class="debt-orig">gốc ${fmtMoney(d.originalAmount)}</div>`:''}
+          </div>
+        </div>
+        ${!isSocial?`
+        <div class="debt-bar-wrap"><div class="debt-bar-fill ${isG?'g':'r'}" style="width:${pct.toFixed(2)}%"></div></div>
+        <div class="debt-bar-info">
+          <div class="debt-bar-pct">${Math.round(pct)}% còn lại</div>
+          ${paid>0?`<div class="debt-bar-paid">đã trả ${fmtMoney(paid)}</div>`:''}
+        </div>`:`<div class="debt-social-lbl">// Nợ tình cảm 💛 — không tính tiền</div>`}
+        <div class="debt-actions">
+          ${d.currentAmount>0&&!isSocial
+            ?`<button class="debt-pay-btn" onclick="openPayM('${d.id}')">💸 TRẢ TIỀN</button>`
+            :isSocial?`<div class="debt-done-badge" style="color:var(--amber);">💛 TÌNH CẢM</div>`
+            :`<div class="debt-done-badge">✅ ĐÃ XONG</div>`}
+          <button class="debt-del-btn" onclick="delDebt('${d.id}')">✕</button>
+        </div>
+      </div>`;
+    }).join('');
+  }
+  renderList(oweme,'debt-oweme-list','owe_me');renderList(iowe,'debt-iowe-list','i_owe');
+}
+function delDebt(id){
+  doConfirmCustom('XÓA KHOẢN NỢ','Xóa khoản nợ này? Không thể hoàn tác.',()=>{
+    saveDebtData(debtData().filter(d=>d.id!==id));renderDebt();renderHome();toast('> ĐÃ XÓA');
+  });
+}
+
 /* ── BANK ── */
 const QUICK_AMT=[50000,100000,200000,500000,1000000,2000000,5000000];
 let bankTxType='in';
@@ -956,11 +1382,133 @@ function renderBank(){
   </div>`).join('');
 }
 document.getElementById('bm').addEventListener('click',function(e){if(e.target===this)closeBankM();});
- 
+
+/* ══════════════════════════════════════════════════
+   ── NEW: SOUND TOGGLE ──
+   ══════════════════════════════════════════════════ */
+function toggleSound(){
+  const cur=ls(K.sound);
+  /* null / undefined = on (default), false = off */
+  if(cur===false){localStorage.removeItem(K.sound);}else{lss(K.sound,false);}
+  renderSettings();
+  toast(ls(K.sound)===false?'> 🔇 ÂM THANH TẮT':'> 🔊 ÂM THANH BẬT');
+}
+
+/* ══════════════════════════════════════════════════
+   ── NEW: HABIT NOTIFICATION SYSTEM ──
+   ══════════════════════════════════════════════════ */
+let _notifTimer=null;
+
+async function toggleNotif(){
+  const cur=!!ls(K.notif);
+  if(!cur){
+    if(!('Notification' in window)){toast('!! TRÌNH DUYỆT KHÔNG HỖ TRỢ THÔNG BÁO');renderSettings();return;}
+    let perm=Notification.permission;
+    if(perm==='default')perm=await Notification.requestPermission();
+    if(perm!=='granted'){
+      lss(K.notif,false);/* remember blocked */
+      renderSettings();toast('!! CẦN CHO PHÉP THÔNG BÁO TRONG TRÌNH DUYỆT');return;
+    }
+    lss(K.notif,true);
+    if(!ls(K.notifTime))lss(K.notifTime,'21:00');
+    scheduleHabitNotif();
+    toast('> 🔔 THÔNG BÁO THÓI QUEN ĐÃ BẬT');
+  }else{
+    localStorage.removeItem(K.notif);
+    clearTimeout(_notifTimer);_notifTimer=null;
+    toast('> 🔕 THÔNG BÁO ĐÃ TẮT');
+  }
+  renderSettings();
+}
+
+function saveNotifTime(val){
+  if(!val)return;
+  lss(K.notifTime,val);
+  clearTimeout(_notifTimer);_notifTimer=null;
+  if(ls(K.notif)===true)scheduleHabitNotif();
+  toast('> ⏰ GIỜ NHẮC: '+val);
+}
+
+function scheduleHabitNotif(){
+  if(ls(K.notif)!==true)return;
+  if(!('Notification' in window)||Notification.permission!=='granted')return;
+  const timeStr=ls(K.notifTime)||'21:00';
+  const[h,m]=timeStr.split(':').map(Number);
+  const now=new Date();const target=new Date();
+  target.setHours(h,m,0,0);
+  let delay=target-now;
+  if(delay<=0)delay+=86400000;/* next day */
+  clearTimeout(_notifTimer);
+  _notifTimer=setTimeout(()=>{sendHabitNotif();scheduleHabitNotif();},delay);
+  /* Update status label if settings tab is open */
+  updateNotifStatus(delay);
+}
+
+function updateNotifStatus(delay){
+  const el=document.getElementById('notif-status');if(!el)return;
+  if(!delay&&delay!==0){el.textContent='';return;}
+  const h=Math.floor(delay/3600000);const m=Math.floor((delay%3600000)/60000);
+  const habits=ls(K.habits)||[];const log=ls(K.habLog)||{};const td=today();const tLog=log[td]||{};
+  const undone=habits.filter(hb=>!tLog[hb.id]);
+  const habitSummary=undone.length>0
+    ?`${undone.length} thói quen chưa xong`
+    :'Tất cả thói quen đã hoàn thành 🎉';
+  el.innerHTML=`<span style="color:var(--amber)">⏱</span> Sẽ nhắc sau ${h > 0 ? h+'g ':'' }${m}p · Hiện tại: <span style="color:${undone.length>0?'var(--red)':'var(--green)'}">${habitSummary}</span>`;
+}
+
+function sendHabitNotif(){
+  const habits=ls(K.habits)||[];if(!habits.length)return;
+  const log=ls(K.habLog)||{};const td=today();const tLog=log[td]||{};
+  const undone=habits.filter(h=>!tLog[h.id]);
+  if(!undone.length){
+    new Notification('// NHẬT KÝ 🎉',{body:'Tuyệt vời! Tất cả thói quen hôm nay đã hoàn thành!',icon:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><text y="28" font-size="28">🎯</text></svg>',tag:'habit-reminder'});
+    return;
+  }
+  try{
+    new Notification(`// NHẬT KÝ · ${undone.length} thói quen chưa xong`,{
+      body:undone.map(h=>h.ico+' '+h.name).join(' · '),
+      icon:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><text y="28" font-size="28">🔔</text></svg>',
+      tag:'habit-reminder',
+      renotify:true
+    });
+  }catch(e){console.warn('Notification failed',e);}
+}
+
+function testNotif(){
+  if(!('Notification' in window)||Notification.permission!=='granted'){
+    toast('!! BẬT THÔNG BÁO TRƯỚC RỒI THỬ');return;
+  }
+  sendHabitNotif();toast('> 🔔 ĐÃ GỬI THÔNG BÁO THỬ');
+}
+
 /* ── SETTINGS ── */
 function renderSettings(){
-  const on=!!ls(K.animeBg);document.getElementById('sw-anime').classList.toggle('on',on);document.getElementById('bg-extra').style.display=on?'block':'none';
-  if(on){document.getElementById('bg-count-input').value=ls(K.bgCount)||10;document.getElementById('bg-interval-input').value=ls(K.bgInterval)||0;}
+  /* Anime BG */
+  const animeOn=!!ls(K.animeBg);
+  document.getElementById('sw-anime').classList.toggle('on',animeOn);
+  document.getElementById('bg-extra').style.display=animeOn?'block':'none';
+  if(animeOn){
+    document.getElementById('bg-count-input').value=ls(K.bgCount)||10;
+    document.getElementById('bg-interval-input').value=ls(K.bgInterval)||0;
+  }
+  /* Sound */
+  const soundOn=ls(K.sound)!==false;
+  document.getElementById('sw-sound').classList.toggle('on',soundOn);
+  /* Notifications */
+  const notifOn=ls(K.notif)===true;
+  const notifBlocked=ls(K.notif)===false||('Notification' in window&&Notification.permission==='denied');
+  document.getElementById('sw-notif').classList.toggle('on',notifOn);
+  document.getElementById('notif-extra').style.display=notifOn?'block':'none';
+  document.getElementById('notif-perm-warn').style.display=notifBlocked&&!notifOn?'block':'none';
+  if(notifOn){
+    const tStr=ls(K.notifTime)||'21:00';
+    document.getElementById('notif-time-input').value=tStr;
+    /* Compute remaining time */
+    const[h,m]=tStr.split(':').map(Number);
+    const now=new Date();const target=new Date();target.setHours(h,m,0,0);
+    let delay=target-now;if(delay<=0)delay+=86400000;
+    updateNotifStatus(delay);
+  }
 }
 function toggleAnimeBg(){
   const cur=!!ls(K.animeBg);lss(K.animeBg,!cur);
@@ -981,7 +1529,7 @@ function randomBg(){
   t.onerror=()=>{const i2=(idx%count)+1;const p2=`img/${i2}.png`;const t2=new Image();t2.onload=()=>{bi.style.backgroundImage=`url('${p2}')`;bi.classList.add('on');bo.classList.add('on');};t2.onerror=()=>toast('!! KHÔNG TÌM THẤY ẢNH NỀN');t2.src=p2;};t.src=path;
 }
 function initBgSystem(){if(ls(K.animeBg)){randomBg();const s=ls(K.bgInterval)||0;if(s>0)_bgT=setInterval(randomBg,s*1000);}}
- 
+
 /* ── UPDATE LOG ── */
 const UL_URL='https://raw.githubusercontent.com/KHACK54321/AX-Project/refs/heads/main/updatelog.txt';
 function openUpdateLog(){
@@ -994,14 +1542,14 @@ function openUpdateLog(){
 }
 function closeUpdateLog(){document.getElementById('ul-modal').classList.remove('open');}
 document.getElementById('ul-modal').addEventListener('click',function(e){if(e.target===this)closeUpdateLog();});
- 
+
 /* ── CONFIRM ── */
 let confCb=null;
 function doConfirmCustom(title,msg,cb){document.getElementById('c-title').textContent=title;document.getElementById('c-msg').textContent=msg;confCb=cb;document.getElementById('cov').classList.add('open');}
 function closeCov(){document.getElementById('cov').classList.remove('open');confCb=null;}
 document.getElementById('c-ok').onclick=()=>{if(confCb)confCb();closeCov();};
 function doConfirm(type){
-  const M={att:['RESET ĐIỂM DANH','Đặt lại số ngày về 1?'],journal:['XÓA NHẬT KÝ','Xóa toàn bộ nhật ký?'],exp:['XÓA CHI TIÊU','Xóa toàn bộ chi tiêu?'],photos:['XÓA ẢNH','Xóa tất cả ảnh Locket?'],habits:['XÓA THÓI QUEN','Xóa tất cả thói quen?'],bank:['XÓA NGÂN HÀNG','Xóa toàn bộ dữ liệu ngân hàng?'],all:['XÓA TẤT CẢ','Xóa TOÀN BỘ dữ liệu?']};
+  const M={att:['RESET ĐIỂM DANH','Đặt lại số ngày về 1?'],journal:['XÓA NHẬT KÝ','Xóa toàn bộ nhật ký?'],exp:['XÓA CHI TIÊU','Xóa toàn bộ chi tiêu?'],photos:['XÓA ẢNH','Xóa tất cả ảnh Locket?'],habits:['XÓA THÓI QUEN','Xóa tất cả thói quen?'],bank:['XÓA NGÂN HÀNG','Xóa toàn bộ dữ liệu ngân hàng?'],debt:['XÓA GHI NỢ','Xóa toàn bộ dữ liệu nợ?'],all:['XÓA TẤT CẢ','Xóa TOÀN BỘ dữ liệu?']};
   const[t,m]=M[type]||['XÁC NHẬN','Bạn có chắc?'];
   doConfirmCustom(t,m,()=>{
     if(type==='att'||type==='all')lss(K.fl,today());
@@ -1010,24 +1558,29 @@ function doConfirm(type){
     if(type==='photos'||type==='all')idbDeleteAll().then(()=>{syncPhotoCount();if(curTab==='locket')renderLocket();});
     if(type==='habits'||type==='all'){localStorage.removeItem(K.habits);localStorage.removeItem(K.habLog);}
     if(type==='bank'||type==='all')localStorage.removeItem(K.bank);
+    if(type==='debt'||type==='all')localStorage.removeItem(K.debt);
     renderHome();
-    if(curTab==='journal')renderJournal();if(curTab==='expense')renderExpense();if(curTab==='habits')renderHabits();if(curTab==='bank')renderBank();
+    if(curTab==='journal')renderJournal();if(curTab==='expense')renderExpense();if(curTab==='habits')renderHabits();if(curTab==='bank')renderBank();if(curTab==='debt')renderDebt();
     toast('> ĐÃ XÓA DỮ LIỆU');
   });
 }
- 
+
 /* ── MODAL BACKDROP ── */
-['jm','lm','hm'].forEach(id=>{document.getElementById(id).addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');});});
+['jm','lm','hm','dm','pm'].forEach(id=>{document.getElementById(id).addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');});});
 document.getElementById('cov').addEventListener('click',function(e){if(e.target===this)closeCov();});
- 
+
 /* ── SCROLL TOP ── */
 document.getElementById('content').addEventListener('scroll',function(){document.getElementById('scroll-top').classList.toggle('vis',this.scrollTop>120);});
- 
+
 /* ── INIT ── */
 (function init(){
   initAttendance();checkRollup();updateHdr();setInterval(updateHdr,30000);
   setRating(3);buildMoodRow();
   renderHome();initBgSystem();
+  /* Resume notification schedule if enabled */
+  if(ls(K.notif)===true&&'Notification' in window&&Notification.permission==='granted'){
+    scheduleHabitNotif();
+  }
 })();
 </script>
 </body>
