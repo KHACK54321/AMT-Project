@@ -37,9 +37,13 @@ Version B2.1.0 (14/5/2026) 🏦 and 🐞
   Tính năng sổ nợ:)
   soon.... 2.2
 Version T-2.2.0 (19/5/2026) ⚙️⚠️
-  Update đã xong bước vào giai đoạn test code
-(20/5/2026)
-  Error
+Version B2.2.0 (26/5/2026) 💸🔊⚙️
+  Thêm tính năng ghi nợ
+  Thêm hiệu ứng âm thanh
+  Thêm Cài đặt bặt tắt âm thanh
+  Thêm thông báo cho thói quen
+  Thêm cài đặt thông báo Thói quen
+
 
   
   
