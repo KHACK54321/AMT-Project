@@ -43,6 +43,8 @@ Version B2.2.0 (26/5/2026) 💸🔊⚙️
   Thêm Cài đặt bặt tắt âm thanh
   Thêm thông báo cho thói quen
   Thêm cài đặt thông báo Thói quen
+Version F2.2.1 (27/5/2026) ⚠️📤
+  Fix error not upload
 
 
   
