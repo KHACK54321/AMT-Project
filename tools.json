@@ -3,11 +3,12 @@
     {
       "id": "GSAutoClicker-Rework",
       "name": "GS AutoClicker Rework",
-      "icon": "gsautoclicker-rework.png",
-      "description": "Một công cụ mẫu minh họa đầy đủ tính năng: quản lý phiên bản, changelog, tải xuống.",
+      "icon": "🖱️",
+      "image": "images/gsautoclicker-rework.png",
+      "description": "Công cụ tự động click chuột với giao diện hiện đại, hỗ trợ đa nền tảng và tùy chỉnh linh hoạt.",
       "category": "Utility",
-      "author": "dev-team",
-      "repo": "https://github.com/your-org/sample-tool",
+      "author": "KHACK54321",
+      "repo": "https://github.com/KHACK54321/AMT-Project",
       "versions": [
         {
           "version": "1.0.0",

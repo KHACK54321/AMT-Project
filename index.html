@@ -16,6 +16,7 @@
         }
         .container { max-width: 1200px; margin: 0 auto; }
 
+        /* HEADER */
         .header {
             display: flex;
             justify-content: space-between;
@@ -40,12 +41,12 @@
             align-items: center;
             justify-content: center;
             font-size: 1.8rem;
+            overflow: hidden;
         }
         .header-left .logo img {
             width: 100%;
             height: 100%;
-            object-fit: contain;
-            border-radius: 50%;
+            object-fit: cover;
         }
         .header-left h1 {
             font-size: 1.8rem;
@@ -54,6 +55,11 @@
             -webkit-text-fill-color: transparent;
         }
         .header-left .sub { font-size:0.85rem; color:#8899b0; -webkit-text-fill-color:#8899b0; }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
         .header-right .badge {
             background: rgba(167,139,250,0.15);
             border:1px solid rgba(167,139,250,0.2);
@@ -61,8 +67,41 @@
             border-radius:20px;
             font-size:0.75rem;
             color:#a78bfa;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .header-right .badge .count {
+            font-weight: 700;
+            font-size: 1rem;
+        }
+        .header-right .changelog-toggle-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            color: #8899b0;
+            padding: 0.3rem 0.7rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .header-right .changelog-toggle-btn:hover {
+            background: rgba(167,139,250,0.15);
+            color: #a78bfa;
+            border-color: rgba(167,139,250,0.2);
+        }
+        .header-right .changelog-toggle-btn i {
+            font-size: 0.7rem;
+            transition: transform 0.3s;
+        }
+        .header-right .changelog-toggle-btn i.open {
+            transform: rotate(180deg);
         }
 
+        /* TOOLS GRID */
         .tools-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(340px,1fr));
@@ -172,46 +211,29 @@
         }
         .btn-detail:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(124,58,237,0.35); }
 
-        /* CHANGELOG ACCORDION */
+        /* CHANGELOG SECTION (Accordion) */
         .changelog-section {
-            margin: 2rem 0;
-            padding: 1.5rem;
-            background: rgba(20,28,40,0.5);
-            border-radius: 16px;
-            border: 1px solid rgba(255,255,255,0.06);
-        }
-        .changelog-section .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            user-select: none;
-        }
-        .changelog-section .section-header h2 {
-            font-size: 1.4rem;
-            color: #f0f4fa;
-        }
-        .changelog-section .section-header h2 i {
-            color: #a78bfa;
-            margin-right: 0.5rem;
-        }
-        .changelog-section .section-header .toggle-icon {
-            font-size: 1.2rem;
-            color: #8899b0;
-            transition: transform 0.3s;
-        }
-        .changelog-section .section-header .toggle-icon.open {
-            transform: rotate(180deg);
-        }
-        .changelog-content {
+            margin: 1.5rem 0;
+            padding: 0 1rem;
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.4s ease, padding 0.3s ease;
-            padding: 0;
+            transition: max-height 0.5s ease, padding 0.3s ease;
+            background: rgba(20,28,40,0.3);
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.04);
         }
-        .changelog-content.open {
-            max-height: 1000px;
-            padding-top: 1rem;
+        .changelog-section.open {
+            max-height: 2000px;
+            padding: 1.5rem;
+        }
+        .changelog-section h2 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #f0f4fa;
+        }
+        .changelog-section h2 i {
+            color: #a78bfa;
+            margin-right: 0.5rem;
         }
         .changelog-item {
             margin-bottom: 0.8rem;
@@ -220,13 +242,13 @@
             overflow: hidden;
             background: rgba(0,0,0,0.2);
         }
-        .changelog-item-header {
+        .changelog-header {
             width: 100%;
             padding: 0.8rem 1.2rem;
             background: transparent;
             border: none;
             color: #e8edf5;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 600;
             cursor: pointer;
             display: flex;
@@ -235,10 +257,10 @@
             transition: background 0.2s;
             text-align: left;
         }
-        .changelog-item-header:hover {
+        .changelog-header:hover {
             background: rgba(255,255,255,0.05);
         }
-        .changelog-item-header .version-badge {
+        .changelog-header .version-badge {
             background: rgba(167,139,250,0.15);
             color: #a78bfa;
             padding: 0.2rem 0.7rem;
@@ -246,30 +268,30 @@
             font-size: 0.7rem;
             font-weight: 500;
         }
-        .changelog-item-header .toggle-icon {
+        .changelog-header .toggle-icon {
             transition: transform 0.3s;
             font-size: 0.8rem;
             color: #8899b0;
         }
-        .changelog-item-header .toggle-icon.open {
+        .changelog-header .toggle-icon.open {
             transform: rotate(180deg);
         }
-        .changelog-item-body {
+        .changelog-body {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.4s ease, padding 0.3s ease;
             padding: 0 1.2rem;
         }
-        .changelog-item-body.open {
+        .changelog-body.open {
             max-height: 500px;
             padding: 0.5rem 1.2rem 1rem 1.2rem;
         }
-        .changelog-item-body ul {
+        .changelog-body ul {
             list-style: none;
             padding: 0;
             margin: 0;
         }
-        .changelog-item-body ul li {
+        .changelog-body ul li {
             padding: 0.3rem 0 0.3rem 1.5rem;
             position: relative;
             color: #b8cce0;
@@ -277,10 +299,10 @@
             line-height: 1.5;
             border-bottom: 1px solid rgba(255,255,255,0.03);
         }
-        .changelog-item-body ul li:last-child {
+        .changelog-body ul li:last-child {
             border-bottom: none;
         }
-        .changelog-item-body ul li::before {
+        .changelog-body ul li::before {
             content: '▸';
             position: absolute;
             left: 0;
@@ -327,6 +349,7 @@
             body { padding:1rem; }
             .header { flex-direction:column; align-items:flex-start; }
             .tools-grid { grid-template-columns:1fr; }
+            .header-right { width:100%; justify-content:flex-start; }
         }
     </style>
 </head>
@@ -336,8 +359,8 @@
     <header class="header">
         <div class="header-left">
             <div class="logo">
-                <!-- Thay bằng ảnh logo: <img src="images/logo-dark.png" alt="Logo"> -->
-                <img src="images/logo-dark.png" alt="Logo">
+                <!-- Nếu có ảnh logo: <img src="images/logo-dark.png" alt="Logo"> -->
+                <span>🧩</span>
             </div>
             <div>
                 <h1>AM-Tool Repository</h1>
@@ -345,7 +368,14 @@
             </div>
         </div>
         <div class="header-right">
-            <span class="badge"><i class="fas fa-database"></i> <span id="toolCount">0</span> tools</span>
+            <span class="badge">
+                <i class="fas fa-database"></i>
+                <span class="count" id="toolCount">0</span> tools
+            </span>
+            <button class="changelog-toggle-btn" id="changelogToggleBtn" onclick="toggleChangelogSection()">
+                <i class="fas fa-history"></i> Cập nhật
+                <i class="fas fa-chevron-down" id="changelogArrow"></i>
+            </button>
         </div>
     </header>
 
@@ -353,12 +383,9 @@
     <div class="tools-grid" id="toolsGrid"></div>
 
     <!-- CHANGELOG CỦA WEB (Accordion) -->
-    <section class="changelog-section">
-        <div class="section-header" onclick="toggleSection(this)">
-            <h2><i class="fas fa-history"></i> Cập nhật của Repository</h2>
-            <i class="fas fa-chevron-down toggle-icon"></i>
-        </div>
-        <div class="changelog-content" id="changelogContainer">
+    <section class="changelog-section" id="changelogSection">
+        <h2><i class="fas fa-history"></i> Cập nhật của Repository</h2>
+        <div id="changelogContainer">
             <!-- JS sẽ render -->
         </div>
     </section>
@@ -373,6 +400,8 @@
         const grid = document.getElementById('toolsGrid');
         const countSpan = document.getElementById('toolCount');
         const changelogContainer = document.getElementById('changelogContainer');
+        const changelogSection = document.getElementById('changelogSection');
+        const changelogArrow = document.getElementById('changelogArrow');
 
         // ----- HÀM LẤY KÍCH THƯỚC FILE -----
         function getFileSize(url) {
@@ -395,7 +424,7 @@
             return (bytes / 1073741824).toFixed(2) + ' GB';
         }
 
-        // ----- RENDER DANH SÁCH TOOL (chỉ 1 tool) -----
+        // ----- RENDER DANH SÁCH TOOL -----
         function renderTools(toolsData) {
             const tools = toolsData.tools || [];
             countSpan.textContent = tools.length;
@@ -408,14 +437,15 @@
             tools.forEach((tool, index) => {
                 const latest = tool.versions[0] || {};
                 const fileUrl = `tools/${tool.id}/${latest.downloadFile || ''}`;
-                const iconHtml = tool.image
-                    ? `<img src="${tool.image}" alt="${tool.name}">`
-                    : tool.icon || '🔧';
-
+                // Xác định hiển thị avatar: nếu có image và ảnh tồn tại thì dùng img, ngược lại dùng icon emoji
+                let avatarHtml = tool.icon || '🔧';
+                if (tool.image) {
+                    avatarHtml = `<img src="${tool.image}" alt="${tool.name}" onerror="this.style.display='none';this.parentElement.innerHTML='${tool.icon || '🔧'}'">`;
+                }
                 html += `
                     <div class="tool-card">
                         <div class="tool-header">
-                            <div class="tool-avatar">${iconHtml}</div>
+                            <div class="tool-avatar">${avatarHtml}</div>
                             <div class="tool-name-group">
                                 <div class="tool-name">${tool.name}</div>
                                 <div class="tool-id">${tool.id}</div>
@@ -465,7 +495,7 @@
                 const isFirst = index === 0;
                 html += `
                     <div class="changelog-item">
-                        <button class="changelog-item-header" onclick="toggleChangelogItem(this)" aria-expanded="${isFirst}">
+                        <button class="changelog-header" onclick="toggleChangelogItem(this)" aria-expanded="${isFirst}">
                             <span>
                                 <span class="version-badge">${item.version}</span>
                                 ${item.title || ''}
@@ -475,7 +505,7 @@
                                 <i class="fas fa-chevron-down toggle-icon ${isFirst ? 'open' : ''}"></i>
                             </span>
                         </button>
-                        <div class="changelog-item-body ${isFirst ? 'open' : ''}">
+                        <div class="changelog-body ${isFirst ? 'open' : ''}">
                             <ul>
                                 ${(item.changes || []).map(change => `<li>${change}</li>`).join('')}
                             </ul>
@@ -486,21 +516,22 @@
             changelogContainer.innerHTML = html;
         }
 
-        // Hàm toggle section (mở/đóng toàn bộ phần changelog)
-        window.toggleSection = function(header) {
-            const content = header.nextElementSibling;
-            const icon = header.querySelector('.toggle-icon');
-            content.classList.toggle('open');
-            icon.classList.toggle('open');
-        };
-
-        // Hàm toggle từng item
+        // Hàm toggle cho từng item changelog
         window.toggleChangelogItem = function(btn) {
             const body = btn.nextElementSibling;
             const icon = btn.querySelector('.toggle-icon');
             body.classList.toggle('open');
             icon.classList.toggle('open');
             btn.setAttribute('aria-expanded', body.classList.contains('open'));
+        };
+
+        // Hàm toggle toàn bộ section changelog (nút bên header)
+        window.toggleChangelogSection = function() {
+            changelogSection.classList.toggle('open');
+            changelogArrow.classList.toggle('open');
+            const btn = document.getElementById('changelogToggleBtn');
+            const isOpen = changelogSection.classList.contains('open');
+            btn.setAttribute('aria-expanded', isOpen);
         };
 
         // ----- FETCH DỮ LIỆU -----
@@ -514,6 +545,7 @@
         })
         .catch(err => {
             console.warn('Lỗi tải dữ liệu, dùng fallback:', err);
+            // Fallback tools
             const fallbackTools = {
                 tools: [{
                     id: "GSAutoClicker-Rework",

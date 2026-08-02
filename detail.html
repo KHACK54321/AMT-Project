@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GSAutoClicker-Rework - Chi tiết</title>
+    <title>Chi tiết Tool</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <style>
         * { margin:0; padding:0; box-sizing:border-box; }
@@ -41,13 +41,16 @@
             align-items: center;
             justify-content: center;
             font-size: 3rem;
-            flex-shrink: 0;
             overflow: hidden;
+            flex-shrink: 0;
         }
         .tool-avatar img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+        .tool-info {
+            flex:1;
         }
         .tool-name {
             font-size:2rem;
@@ -82,7 +85,6 @@
             margin-bottom:2rem;
         }
         .tool-meta i { margin-right:0.3rem; }
-
         .version-section {
             background:rgba(20,28,40,0.5);
             border-radius:16px;
@@ -130,41 +132,38 @@
         .version-tag.beta   { background:rgba(251,191,36,0.15);  color:#fbbf24; border:1px solid rgba(251,191,36,0.15); }
         .version-tag.alpha  { background:rgba(251,113,133,0.15); color:#fb7185; border:1px solid rgba(251,113,133,0.15); }
 
-        /* Changelog của từng phiên bản (Accordion) */
+        /* Changelog của từng phiên bản (chỉ hiển thị phiên bản đang chọn) */
         .version-changelog {
-            margin-top: 0.8rem;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            padding-top: 0.8rem;
+            background:rgba(0,0,0,0.2);
+            border-radius:12px;
+            padding:0.8rem 1.2rem;
+            margin-top:0.8rem;
+            transition: all 0.3s;
         }
-        .version-changelog-header {
+        .version-changelog .changelog-header {
             font-size:0.8rem;
             font-weight:600;
             color:#8899b0;
             text-transform:uppercase;
             letter-spacing:0.5px;
-            margin-bottom:0.5rem;
+            margin-bottom:0.4rem;
             display:flex;
             align-items:center;
             gap:0.5rem;
         }
-        .version-changelog-body {
-            background:rgba(0,0,0,0.2);
-            border-radius:12px;
-            padding:0.8rem 1.2rem;
-        }
-        .version-changelog-body ul {
+        .version-changelog ul {
             list-style:none;
             padding:0;
             margin:0;
         }
-        .version-changelog-body ul li {
+        .version-changelog li {
             font-size:0.9rem;
             color:#b8cce0;
             padding:0.25rem 0 0.25rem 1.5rem;
             position:relative;
             line-height:1.5;
         }
-        .version-changelog-body ul li::before {
+        .version-changelog li::before {
             content:'▸';
             position:absolute;
             left:0;
@@ -316,41 +315,19 @@
 
         // ----- DỮ LIỆU MẪU (FALLBACK) -----
         const FALLBACK_TOOLS = {
-            tools: [
-                {
-                    id: "GSAutoClicker-Rework",
-                    name: "GS AutoClicker Rework",
-                    icon: "🖱️",
-                    description: "Công cụ tự động click chuột với giao diện hiện đại.",
-                    category: "Utility",
-                    author: "KHACK54321",
-                    repo: "https://github.com/KHACK54321/AMT-Project",
-                    versions: [
-                        {
-                            version: "1.0.0",
-                            tag: "stable",
-                            date: "2025-01-20",
-                            downloadFile: "gsautoclicker-rework.zip",
-                            changes: [
-                                "🎨 Giao diện mới hoàn toàn với dark mode",
-                                "⚡ Tối ưu hiệu năng xử lý dữ liệu lớn",
-                                "🧩 Thêm plugin system cho mở rộng"
-                            ]
-                        },
-                        {
-                            version: "beta-0.0.1",
-                            tag: "beta",
-                            date: "2024-10-15",
-                            downloadFile: "gsautoclicker-rework.zip",
-                            changes: [
-                                "🧪 Bản beta đầu tiên cho nhóm test",
-                                "⚙️ Thử nghiệm tính năng real-time sync",
-                                "📈 Biểu đồ tương tác với D3.js"
-                            ]
-                        }
-                    ]
-                }
-            ]
+            tools: [{
+                id: "GSAutoClicker-Rework",
+                name: "GS AutoClicker Rework",
+                icon: "🖱️",
+                description: "Công cụ tự động click chuột với giao diện hiện đại.",
+                category: "Utility",
+                author: "KHACK54321",
+                repo: "https://github.com/KHACK54321/AMT-Project",
+                versions: [
+                    { version: "1.0.0", tag: "stable", date: "2025-01-20", downloadFile: "gsautoclicker-rework.zip", changes: ["🎨 Giao diện mới"] },
+                    { version: "beta-0.0.1", tag: "beta", date: "2024-10-15", downloadFile: "gsautoclicker-rework.zip", changes: ["🧪 Bản beta"] }
+                ]
+            }]
         };
 
         // Lấy tool id từ URL
@@ -379,25 +356,27 @@
                 return;
             }
 
-            // Tạo options cho select
+            // Tạo dropdown
             let optionsHtml = '';
             versions.forEach((v, idx) => {
                 const selected = idx === 0 ? 'selected' : '';
                 optionsHtml += `<option value="${idx}" ${selected}>${v.version} ${v.tag ? `[${v.tag}]` : ''}</option>`;
             });
 
-            // Chọn phiên bản đầu tiên làm mặc định
+            // Lấy phiên bản đầu tiên làm mặc định
             const defaultVer = versions[0];
             const tagClass = getTagClass(defaultVer.tag);
 
-            const iconHtml = tool.image
-                ? `<img src="${tool.image}" alt="${tool.name}">`
-                : tool.icon || '🔧';
+            // Xác định avatar
+            let avatarHtml = tool.icon || '🔧';
+            if (tool.image) {
+                avatarHtml = `<img src="${tool.image}" alt="${tool.name}" onerror="this.style.display='none';this.parentElement.innerHTML='${tool.icon || '🔧'}'">`;
+            }
 
             const html = `
                 <div class="tool-header">
-                    <div class="tool-avatar">${iconHtml}</div>
-                    <div>
+                    <div class="tool-avatar">${avatarHtml}</div>
+                    <div class="tool-info">
                         <div class="tool-name">${tool.name}</div>
                         <div class="tool-id">${tool.id}</div>
                     </div>
@@ -416,14 +395,15 @@
                             ${optionsHtml}
                         </select>
                         <span class="version-tag ${tagClass}" id="versionTag">${defaultVer.tag || 'stable'}</span>
-                        <span style="font-size:0.8rem;color:#5a6f88;margin-left:auto;"><i class="far fa-calendar-alt"></i> ${defaultVer.date || ''}</span>
+                        <span style="font-size:0.8rem;color:#5a6f88;margin-left:auto;"><i class="far fa-calendar-alt"></i> <span id="versionDate">${defaultVer.date || ''}</span></span>
                     </div>
 
+                    <!-- Changelog của phiên bản đang chọn -->
                     <div class="version-changelog" id="versionChangelog">
-                        <div class="version-changelog-header"><i class="fas fa-list-ul"></i> Update log</div>
-                        <div class="version-changelog-body">
-                            ${renderChangelogList(defaultVer.changes)}
-                        </div>
+                        <div class="changelog-header"><i class="fas fa-list-ul"></i> Update log</div>
+                        <ul id="changelogList">
+                            ${(defaultVer.changes || []).map(change => `<li>${change}</li>`).join('')}
+                        </ul>
                     </div>
 
                     <div class="download-area">
@@ -452,44 +432,43 @@
                 });
             }
 
-            // Sự kiện select: khi đổi phiên bản thì cập nhật changelog và link tải
+            // Sự kiện change cho dropdown
             const select = document.getElementById('versionSelect');
             const tagSpan = document.getElementById('versionTag');
-            const changelogDiv = document.getElementById('versionChangelog');
+            const dateSpan = document.getElementById('versionDate');
+            const changelogList = document.getElementById('changelogList');
             const downloadBtn = document.getElementById('downloadBtn');
+            const fileSizeDisplay = document.getElementById('fileSizeDisplay');
 
             select.addEventListener('change', function() {
                 const idx = parseInt(this.value);
                 const ver = versions[idx];
                 if (!ver) return;
 
-                // Cập nhật tag và ngày
+                // Cập nhật tag
                 tagSpan.textContent = ver.tag || 'stable';
                 tagSpan.className = `version-tag ${getTagClass(ver.tag)}`;
-                const dateSpan = this.parentElement.querySelector('span:last-child');
-                if (dateSpan) dateSpan.innerHTML = `<i class="far fa-calendar-alt"></i> ${ver.date || ''}`;
+
+                // Cập nhật ngày
+                dateSpan.textContent = ver.date || '';
 
                 // Cập nhật changelog
-                changelogDiv.innerHTML = `
-                    <div class="version-changelog-header"><i class="fas fa-list-ul"></i> Update log</div>
-                    <div class="version-changelog-body">
-                        ${renderChangelogList(ver.changes)}
-                    </div>
-                `;
+                changelogList.innerHTML = (ver.changes || []).map(change => `<li>${change}</li>`).join('');
 
                 // Cập nhật link tải
                 const newFileUrl = `tools/${tool.id}/${ver.downloadFile}`;
                 downloadBtn.href = newFileUrl;
-                const sizeSpan2 = document.getElementById('fileSizeDisplay');
-                if (sizeSpan2) {
-                    sizeSpan2.innerHTML = ` <span class="loading-shimmer"></span>`;
+
+                // Cập nhật kích thước file
+                if (fileSizeDisplay) {
+                    fileSizeDisplay.innerHTML = ` <span class="loading-shimmer"></span>`;
                     getFileSize(newFileUrl).then(sizeStr => {
                         if (sizeStr) {
-                            sizeSpan2.innerHTML = ` (${sizeStr})`;
-                            sizeSpan2.style.color = '';
+                            fileSizeDisplay.innerHTML = ` (${sizeStr})`;
+                            fileSizeDisplay.style.color = '';
                         } else {
-                            sizeSpan2.innerHTML = ` (không tìm thấy file)`;
-                            sizeSpan2.style.color = '#fb7185';
+                            fileSizeDisplay.innerHTML = ` (không tìm thấy file)`;
+                            fileSizeDisplay.style.color = '#fb7185';
                         }
                     });
                 }
@@ -521,18 +500,6 @@
             if (tag === 'beta') return 'beta';
             if (tag === 'alpha') return 'alpha';
             return 'stable';
-        }
-
-        function renderChangelogList(changes) {
-            if (!changes || changes.length === 0) {
-                return '<div style="color:#5a6f88;font-style:italic;padding:0.2rem 0;">Không có ghi chú.</div>';
-            }
-            let html = '<ul>';
-            changes.forEach(item => {
-                html += `<li>${item}</li>`;
-            });
-            html += '</ul>';
-            return html;
         }
 
         // ----- FETCH tools.json -----
