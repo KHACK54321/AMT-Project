@@ -6,7 +6,6 @@
     <title>AM-Tool Repository</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <style>
-        /* RESET & BASE */
         * { margin:0; padding:0; box-sizing:border-box; }
         body {
             font-family: 'Segoe UI', system-ui, sans-serif;
@@ -56,6 +55,12 @@
             -webkit-text-fill-color: transparent;
         }
         .header-left .sub { font-size:0.85rem; color:#8899b0; -webkit-text-fill-color:#8899b0; }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
         .header-right .badge {
             background: rgba(167,139,250,0.15);
             border:1px solid rgba(167,139,250,0.2);
@@ -63,6 +68,119 @@
             border-radius:20px;
             font-size:0.75rem;
             color:#a78bfa;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        /* Nút changelog popover */
+        .changelog-trigger {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
+            color: #b0c4db;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .changelog-trigger:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(167,139,250,0.3);
+            color: #e8edf5;
+        }
+        .changelog-trigger i {
+            font-size: 0.7rem;
+        }
+
+        .popover-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+        .popover-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: calc(100% + 8px);
+            background: rgba(20,28,40,0.98);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 1rem;
+            min-width: 320px;
+            max-width: 400px;
+            max-height: 400px;
+            overflow-y: auto;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            z-index: 100;
+        }
+        .popover-content.show {
+            display: block;
+        }
+        .popover-content::-webkit-scrollbar {
+            width: 4px;
+        }
+        .popover-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .popover-content::-webkit-scrollbar-thumb {
+            background: #3b4a5e;
+            border-radius: 4px;
+        }
+        .popover-content h4 {
+            font-size: 0.85rem;
+            color: #8899b0;
+            margin-bottom: 0.6rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding-bottom: 0.4rem;
+        }
+        .popover-item {
+            padding: 0.4rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+        .popover-item:last-child {
+            border-bottom: none;
+        }
+        .popover-item .ver {
+            font-weight: 600;
+            color: #a78bfa;
+            font-size: 0.8rem;
+        }
+        .popover-item .title {
+            color: #e8edf5;
+            font-size: 0.85rem;
+        }
+        .popover-item .date {
+            color: #5a6f88;
+            font-size: 0.7rem;
+            margin-left: 0.5rem;
+        }
+        .popover-item .changes-list {
+            list-style: none;
+            padding: 0.3rem 0 0 0.8rem;
+            margin: 0;
+        }
+        .popover-item .changes-list li {
+            font-size: 0.75rem;
+            color: #b8cce0;
+            padding: 0.1rem 0;
+            position: relative;
+            padding-left: 1rem;
+        }
+        .popover-item .changes-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #60a5fa;
+        }
+        .popover-empty {
+            color: #5a6f88;
+            font-style: italic;
+            font-size: 0.8rem;
+            padding: 0.5rem 0;
         }
 
         /* TOOLS GRID */
@@ -112,7 +230,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
+            font-size: 2.2rem;
             flex-shrink: 0;
             overflow: hidden;
         }
@@ -175,102 +293,6 @@
         }
         .btn-detail:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(124,58,237,0.35); }
 
-        /* CHANGELOG ACCORDION */
-        .changelog-section {
-            margin: 2rem 0;
-            padding: 1.5rem;
-            background: rgba(20,28,40,0.5);
-            border-radius: 16px;
-            border: 1px solid rgba(255,255,255,0.06);
-        }
-        .changelog-section h2 {
-            font-size: 1.4rem;
-            margin-bottom: 1rem;
-            color: #f0f4fa;
-        }
-        .changelog-section h2 i {
-            color: #a78bfa;
-            margin-right: 0.5rem;
-        }
-        .changelog-item {
-            margin-bottom: 0.8rem;
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 10px;
-            overflow: hidden;
-            background: rgba(0,0,0,0.2);
-        }
-        .changelog-header {
-            width: 100%;
-            padding: 0.8rem 1.2rem;
-            background: transparent;
-            border: none;
-            color: #e8edf5;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: background 0.2s;
-            text-align: left;
-        }
-        .changelog-header:hover {
-            background: rgba(255,255,255,0.05);
-        }
-        .changelog-header .version-badge {
-            background: rgba(167,139,250,0.15);
-            color: #a78bfa;
-            padding: 0.2rem 0.7rem;
-            border-radius: 12px;
-            font-size: 0.7rem;
-            font-weight: 500;
-        }
-        .changelog-header .toggle-icon {
-            transition: transform 0.3s;
-            font-size: 0.8rem;
-            color: #8899b0;
-        }
-        .changelog-header .toggle-icon.open {
-            transform: rotate(180deg);
-        }
-        .changelog-body {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease, padding 0.3s ease;
-            padding: 0 1.2rem;
-        }
-        .changelog-body.open {
-            max-height: 500px;
-            padding: 0.5rem 1.2rem 1rem 1.2rem;
-        }
-        .changelog-body ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .changelog-body ul li {
-            padding: 0.3rem 0 0.3rem 1.5rem;
-            position: relative;
-            color: #b8cce0;
-            font-size: 0.9rem;
-            line-height: 1.5;
-            border-bottom: 1px solid rgba(255,255,255,0.03);
-        }
-        .changelog-body ul li:last-child {
-            border-bottom: none;
-        }
-        .changelog-body ul li::before {
-            content: '▸';
-            position: absolute;
-            left: 0;
-            color: #60a5fa;
-        }
-        .changelog-empty {
-            color: #5a6f88;
-            font-style: italic;
-            padding: 0.5rem 0;
-        }
-
         .footer {
             margin-top:3rem;
             padding-top:1.5rem;
@@ -306,16 +328,27 @@
             body { padding:1rem; }
             .header { flex-direction:column; align-items:flex-start; }
             .tools-grid { grid-template-columns:1fr; }
+            .popover-content {
+                right: -80px;
+                min-width: 280px;
+            }
+        }
+        @media (max-width:480px) {
+            .popover-content {
+                right: -120px;
+                min-width: 260px;
+            }
         }
     </style>
 </head>
 <body>
 <div class="container">
+    <!-- HEADER -->
     <header class="header">
         <div class="header-left">
             <div class="logo">
-                <!-- Logo của bạn, đặt file logo-dark.png trong images/ -->
-                <img src="images/logo-dark.png" alt="AM-Tool Logo" onerror="this.style.display='none';this.parentElement.innerHTML='🧩'">
+                <!-- Thay bằng ảnh logo: <img src="images/logo-dark.png" alt="Logo"> -->
+                <span>🧩</span>
             </div>
             <div>
                 <h1>AM-Tool Repository</h1>
@@ -323,18 +356,26 @@
             </div>
         </div>
         <div class="header-right">
-            <span class="badge"><i class="fas fa-database"></i> <span id="toolCount">0</span> tools</span>
+            <span class="badge">
+                <i class="fas fa-database"></i> <span id="toolCount">0</span> tools
+            </span>
+            <!-- Nút changelog popover -->
+            <div class="popover-wrapper">
+                <button class="changelog-trigger" id="changelogTrigger">
+                    <i class="fas fa-history"></i> Cập nhật
+                </button>
+                <div class="popover-content" id="changelogPopover">
+                    <h4><i class="fas fa-list-ul"></i> Cập nhật của Repository</h4>
+                    <div id="popoverList">
+                        <div class="popover-empty">Đang tải...</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </header>
 
+    <!-- DANH SÁCH TOOL -->
     <div class="tools-grid" id="toolsGrid"></div>
-
-    <section class="changelog-section">
-        <h2><i class="fas fa-history"></i> Cập nhật của Repository</h2>
-        <div id="changelogContainer">
-            <!-- JS render -->
-        </div>
-    </section>
 
     <footer class="footer">
         <p><i class="fas fa-ghost"></i> AM-Tool Repository &mdash; Dữ liệu từ <code>tools.json</code> &amp; <code>changelog.json</code></p>
@@ -345,9 +386,23 @@
     (function() {
         const grid = document.getElementById('toolsGrid');
         const countSpan = document.getElementById('toolCount');
-        const changelogContainer = document.getElementById('changelogContainer');
+        const popoverList = document.getElementById('popoverList');
+        const trigger = document.getElementById('changelogTrigger');
+        const popover = document.getElementById('changelogPopover');
 
-        // ----- Lấy kích thước file -----
+        // ----- TOGGLE POPOVER -----
+        trigger.addEventListener('click', function(e) {
+            e.stopPropagation();
+            popover.classList.toggle('show');
+        });
+        document.addEventListener('click', function() {
+            popover.classList.remove('show');
+        });
+        popover.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+
+        // ----- HÀM LẤY KÍCH THƯỚC FILE -----
         function getFileSize(url) {
             return fetch(url, { method: 'HEAD' })
                 .then(res => {
@@ -368,12 +423,12 @@
             return (bytes / 1073741824).toFixed(2) + ' GB';
         }
 
-        // ----- Render tool -----
+        // ----- RENDER DANH SÁCH TOOL -----
         function renderTools(toolsData) {
             const tools = toolsData.tools || [];
             countSpan.textContent = tools.length;
             if (tools.length === 0) {
-                grid.innerHTML = `<div style="text-align:center;padding:3rem;color:#5a6f88;">Chưa có tool nào.</div>`;
+                grid.innerHTML = `<div class="empty-state" style="text-align:center;padding:3rem;color:#5a6f88;">Chưa có tool nào.</div>`;
                 return;
             }
 
@@ -429,73 +484,60 @@
             });
         }
 
-        // ----- Render changelog accordion -----
-        function renderChangelog(updates) {
+        // ----- RENDER CHANGELOG POPOVER -----
+        function renderPopover(updates) {
             if (!updates || updates.length === 0) {
-                changelogContainer.innerHTML = `<div class="changelog-empty">Chưa có cập nhật nào.</div>`;
+                popoverList.innerHTML = `<div class="popover-empty">Chưa có cập nhật nào.</div>`;
                 return;
             }
             let html = '';
-            updates.forEach((item, index) => {
-                const isFirst = index === 0;
+            updates.forEach(item => {
                 html += `
-                    <div class="changelog-item">
-                        <button class="changelog-header" onclick="toggleChangelog(this)" aria-expanded="${isFirst}">
-                            <span>
-                                <span class="version-badge">${item.version}</span>
-                                ${item.title || ''}
-                            </span>
-                            <span>
-                                <span style="font-size:0.75rem;color:#5a6f88;margin-right:0.8rem;">${item.date || ''}</span>
-                                <i class="fas fa-chevron-down toggle-icon ${isFirst ? 'open' : ''}"></i>
-                            </span>
-                        </button>
-                        <div class="changelog-body ${isFirst ? 'open' : ''}">
-                            <ul>
-                                ${(item.changes || []).map(change => `<li>${change}</li>`).join('')}
-                            </ul>
+                    <div class="popover-item">
+                        <div>
+                            <span class="ver">${item.version}</span>
+                            <span class="title">${item.title || ''}</span>
+                            <span class="date">${item.date || ''}</span>
                         </div>
+                        ${item.changes && item.changes.length > 0 ? `
+                            <ul class="changes-list">
+                                ${item.changes.map(c => `<li>${c}</li>`).join('')}
+                            </ul>
+                        ` : ''}
                     </div>
                 `;
             });
-            changelogContainer.innerHTML = html;
+            popoverList.innerHTML = html;
         }
 
-        window.toggleChangelog = function(btn) {
-            const body = btn.nextElementSibling;
-            const icon = btn.querySelector('.toggle-icon');
-            body.classList.toggle('open');
-            icon.classList.toggle('open');
-            btn.setAttribute('aria-expanded', body.classList.contains('open'));
-        };
-
-        // ----- Load dữ liệu -----
+        // ----- FETCH DỮ LIỆU -----
         Promise.all([
             fetch('tools.json').then(res => res.ok ? res.json() : Promise.reject('tools.json')),
             fetch('changelog.json').then(res => res.ok ? res.json() : Promise.reject('changelog.json'))
         ])
         .then(([toolsData, changelogData]) => {
             renderTools(toolsData);
-            renderChangelog(changelogData.updates || []);
+            renderPopover(changelogData.updates || []);
         })
         .catch(err => {
-            console.warn('Lỗi tải JSON, dùng fallback:', err);
-            // Fallback
-            renderTools({
+            console.warn('Lỗi tải dữ liệu, dùng fallback:', err);
+            // Fallback tools
+            const fallbackTools = {
                 tools: [{
                     id: "GSAutoClicker-Rework",
                     name: "GS AutoClicker Rework",
                     icon: "gsautoclicker-rework.png",
-                    description: "Công cụ auto clicker mạnh mẽ.",
+                    description: "Một công cụ mẫu minh họa đầy đủ tính năng.",
                     category: "Utility",
                     author: "dev-team",
                     versions: [
                         { version: "1.0.0", tag: "stable", date: "2025-01-20", downloadFile: "gsautoclicker-rework.zip", changes: ["🎨 Giao diện mới"] }
                     ]
                 }]
-            });
-            renderChangelog([
-                { version: "1.0.0", date: "2025-02-15", title: "Phát hành AM-Tool Repository", changes: ["🎉 Ra mắt"] }
+            };
+            renderTools(fallbackTools);
+            renderPopover([
+                { version: "1.0.0", date: "2025-02-15", title: "Phát hành AM-Tool Repository 1.0.0", changes: ["🎉 Ra mắt trang web"] }
             ]);
             const notice = document.createElement('div');
             notice.className = 'notice';
