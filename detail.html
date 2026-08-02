@@ -228,6 +228,15 @@
             0% { background-position: -200% 0; }
             100% { background-position: 200% 0; }
         }
+        .notice {
+            background:rgba(251,191,36,0.1);
+            border:1px solid #fbbf24;
+            border-radius:12px;
+            padding:0.8rem 1.2rem;
+            margin-bottom:1.5rem;
+            color:#fbbf24;
+            text-align:center;
+        }
         @media (max-width:600px) {
             body { padding:1rem; }
             .tool-header { flex-direction:column; align-items:center; text-align:center; }
@@ -265,7 +274,7 @@
             toastTimer = setTimeout(() => { toast.classList.remove('show'); toastTimer = null; }, 3500);
         }
 
-        // ----- Hàm lấy kích thước file -----
+        // ----- Lấy kích thước file -----
         function getFileSize(url) {
             return fetch(url, { method: 'HEAD' })
                 .then(res => {
@@ -295,43 +304,25 @@
                     id: "sample-tool",
                     name: "Sample Tool",
                     icon: "🚀",
-                    description: "Một công cụ mẫu minh họa đầy đủ tính năng: quản lý phiên bản, changelog, tải xuống.",
+                    description: "Một công cụ mẫu minh họa.",
                     category: "Utility",
                     author: "dev-team",
                     repo: "https://github.com/your-org/sample-tool",
                     versions: [
-                        {
-                            version: "2.0.0",
-                            tag: "stable",
-                            date: "2025-01-20",
-                            downloadFile: "sample-tool-2.0.0.zip",
-                            changes: ["🎨 Giao diện mới", "⚡ Tối ưu hiệu năng"]
-                        },
-                        {
-                            version: "beta-0.0.1",
-                            tag: "beta",
-                            date: "2024-10-15",
-                            downloadFile: "sample-tool-beta-0.0.1.zip",
-                            changes: ["🧪 Bản beta đầu tiên"]
-                        }
+                        { version: "2.0.0", tag: "stable", date: "2025-01-20", downloadFile: "sample-tool-2.0.0.zip", changes: ["🎨 Giao diện mới"] },
+                        { version: "beta-0.0.1", tag: "beta", date: "2024-10-15", downloadFile: "sample-tool-beta-0.0.1.zip", changes: ["🧪 Bản beta"] }
                     ]
                 },
                 {
                     id: "code-formatter",
                     name: "Code Formatter Pro",
                     icon: "✨",
-                    description: "Công cụ định dạng code thông minh hỗ trợ nhiều ngôn ngữ.",
+                    description: "Công cụ định dạng code.",
                     category: "Developer",
                     author: "dev-team",
                     repo: "https://github.com/your-org/code-formatter",
                     versions: [
-                        {
-                            version: "1.0.0",
-                            tag: "stable",
-                            date: "2025-01-05",
-                            downloadFile: "code-formatter-1.0.0.zip",
-                            changes: ["🎉 Release chính thức"]
-                        }
+                        { version: "1.0.0", tag: "stable", date: "2025-01-05", downloadFile: "code-formatter-1.0.0.zip", changes: ["🎉 Release"] }
                     ]
                 }
             ]
@@ -405,7 +396,7 @@
                     <div class="download-area">
                         <a class="btn-download" id="downloadBtn" href="tools/${tool.id}/${defaultVer.downloadFile}" download>
                             <i class="fas fa-download"></i> Tải xuống
-                            <span class="file-size" id="fileSizeDisplay">${defaultVer.fileSize ? `(${defaultVer.fileSize})` : ''}</span>
+                            <span class="file-size" id="fileSizeDisplay"> <span class="loading-shimmer"></span></span>
                         </a>
                         ${tool.repo ? `<a class="btn-download secondary" href="${tool.repo}" target="_blank"><i class="fab fa-github"></i> Xem source</a>` : ''}
                     </div>
@@ -418,13 +409,11 @@
             const fileUrl = `tools/${tool.id}/${defaultVer.downloadFile}`;
             const sizeSpan = document.getElementById('fileSizeDisplay');
             if (sizeSpan) {
-                // Hiển thị loading
-                sizeSpan.innerHTML = ` <span class="loading-shimmer"></span>`;
                 getFileSize(fileUrl).then(sizeStr => {
                     if (sizeStr) {
                         sizeSpan.innerHTML = ` (${sizeStr})`;
                     } else {
-                        sizeSpan.innerHTML = ` (file không tồn tại)`;
+                        sizeSpan.innerHTML = ` (không tìm thấy file)`;
                         sizeSpan.style.color = '#fb7185';
                     }
                 });
@@ -454,7 +443,6 @@
 
                 const newFileUrl = `tools/${tool.id}/${ver.downloadFile}`;
                 downloadBtn.href = newFileUrl;
-                // Cập nhật kích thước file
                 const sizeSpan2 = document.getElementById('fileSizeDisplay');
                 if (sizeSpan2) {
                     sizeSpan2.innerHTML = ` <span class="loading-shimmer"></span>`;
@@ -463,7 +451,7 @@
                             sizeSpan2.innerHTML = ` (${sizeStr})`;
                             sizeSpan2.style.color = '';
                         } else {
-                            sizeSpan2.innerHTML = ` (file không tồn tại)`;
+                            sizeSpan2.innerHTML = ` (không tìm thấy file)`;
                             sizeSpan2.style.color = '#fb7185';
                         }
                     });
@@ -473,7 +461,6 @@
             });
 
             downloadBtn.addEventListener('click', function(e) {
-                // Kiểm tra nếu file tồn tại (có thể kiểm tra bằng HEAD)
                 const url = this.href;
                 fetch(url, { method: 'HEAD' })
                     .then(res => {
@@ -522,8 +509,8 @@
             .catch(err => {
                 console.warn('Không tải được tools.json, dùng fallback:', err);
                 const notice = document.createElement('div');
-                notice.style.cssText = 'background:rgba(251,191,36,0.1);border:1px solid #fbbf24;border-radius:12px;padding:0.8rem 1.2rem;margin-bottom:1.5rem;color:#fbbf24;text-align:center;';
-                notice.innerHTML = `<i class="fas fa-triangle-exclamation"></i> Không tìm thấy file <code>tools.json</code>. Đang hiển thị dữ liệu mẫu. Hãy tạo file <code>tools.json</code> cùng thư mục.`;
+                notice.className = 'notice';
+                notice.innerHTML = `<i class="fas fa-triangle-exclamation"></i> Không tìm thấy <code>tools.json</code>. Đang hiển thị dữ liệu mẫu.`;
                 container.parentNode.insertBefore(notice, container);
                 renderToolFromData(FALLBACK_TOOLS);
             });
