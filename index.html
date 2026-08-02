@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🧰 Tool Repository</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        /* (Giữ nguyên CSS như trước, không thay đổi) */
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: #0b0e14;
+            color: #e8edf5;
+            padding: 2rem 1.5rem;
+            min-height: 100vh;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .header-left { display: flex; align-items: center; gap: 0.75rem; }
+        .header-left h1 {
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, #a78bfa, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .header-left .sub { font-size:0.85rem; color:#8899b0; -webkit-text-fill-color:#8899b0; }
+        .header-right .badge {
+            background: rgba(167,139,250,0.15);
+            border:1px solid rgba(167,139,250,0.2);
+            padding:0.3rem 0.9rem;
+            border-radius:20px;
+            font-size:0.75rem;
+            color:#a78bfa;
+        }
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px,1fr));
+            gap: 1.5rem;
+        }
+        .tool-card {
+            background: rgba(20,28,40,0.7);
+            backdrop-filter: blur(12px);
+            border:1px solid rgba(255,255,255,0.06);
+            border-radius:18px;
+            padding:1.5rem;
+            transition: all 0.3s;
+            position:relative;
+            overflow:hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .tool-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(167,139,250,0.2);
+            box-shadow: 0 20px 40px -12px rgba(0,0,0,0.6);
+        }
+        .tool-card::before {
+            content:'';
+            position:absolute;
+            top:0; left:0; right:0; height:2px;
+            background: linear-gradient(90deg, #a78bfa, #60a5fa, #34d399);
+            opacity:0;
+            transition:opacity 0.3s;
+        }
+        .tool-card:hover::before { opacity:1; }
+        .tool-header {
+            display:flex;
+            align-items:center;
+            gap:1rem;
+            margin-bottom:0.5rem;
+        }
+        .tool-icon { font-size:2.2rem; line-height:1; flex-shrink:0; }
+        .tool-name {
+            font-size:1.25rem;
+            font-weight:600;
+            color:#f0f4fa;
+        }
+        .tool-id {
+            font-size:0.7rem;
+            color:#5a6f88;
+            font-family:monospace;
+            background:rgba(255,255,255,0.04);
+            padding:0.1rem 0.5rem;
+            border-radius:4px;
+            display:inline-block;
+            margin-top:0.1rem;
+        }
+        .tool-description {
+            color:#b0c4db;
+            font-size:0.92rem;
+            line-height:1.6;
+            margin:0.3rem 0 0.8rem 0;
+            flex:1;
+        }
+        .tool-meta {
+            display:flex;
+            gap:1rem;
+            font-size:0.75rem;
+            color:#5a6f88;
+            margin-bottom:1rem;
+            flex-wrap:wrap;
+        }
+        .tool-meta i { margin-right:0.2rem; }
+        .btn-detail {
+            display:inline-flex;
+            align-items:center;
+            gap:0.5rem;
+            padding:0.5rem 1.2rem;
+            border-radius:10px;
+            font-weight:600;
+            font-size:0.85rem;
+            background: linear-gradient(135deg, #7c3aed, #4f46e5);
+            color:#fff;
+            border:none;
+            cursor:pointer;
+            text-decoration:none;
+            transition: all 0.25s;
+            justify-content:center;
+        }
+        .btn-detail:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(124,58,237,0.35); }
+        .footer {
+            margin-top:3rem;
+            padding-top:1.5rem;
+            border-top:1px solid rgba(255,255,255,0.04);
+            text-align:center;
+            font-size:0.8rem;
+            color:#3b4a5e;
+        }
+        .empty-state { text-align:center; padding:4rem 2rem; color:#5a6f88; grid-column:1/-1; }
+        .empty-state i { font-size:3rem; margin-bottom:1rem; opacity:0.3; }
+        .error-state { text-align:center; padding:4rem 2rem; color:#fb7185; grid-column:1/-1; }
+        .error-state i { font-size:3rem; margin-bottom:1rem; opacity:0.5; }
+        @media (max-width:768px) {
+            body { padding:1rem; }
+            .header { flex-direction:column; align-items:flex-start; }
+            .tools-grid { grid-template-columns:1fr; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header class="header">
+        <div class="header-left">
+            <span style="font-size:2.2rem;">🧰</span>
+            <div>
+                <h1>Tool Repository <span class="sub">· GitHub Pages</span></h1>
+            </div>
+        </div>
+        <div class="header-right">
+            <span class="badge"><i class="fas fa-database"></i> <span id="toolCount">0</span> tools</span>
+        </div>
+    </header>
+
+    <div class="tools-grid" id="toolsGrid"></div>
+
+    <footer class="footer">
+        <p><i class="fas fa-ghost"></i> Dữ liệu lấy từ <code>tools.json</code> – Tải file từ thư mục <code>tools/</code></p>
+    </footer>
+</div>
+
+<script>
+    (function() {
+        const grid = document.getElementById('toolsGrid');
+        const countSpan = document.getElementById('toolCount');
+
+        // ----- DỮ LIỆU MẪU (FALLBACK) -----
+        // Nếu không fetch được tools.json, trang sẽ dùng dữ liệu này
+        const FALLBACK_TOOLS = {
+            tools: [
+                {
+                    id: "sample-tool",
+                    name: "Sample Tool",
+                    icon: "🚀",
+                    description: "Một công cụ mẫu minh họa đầy đủ tính năng: quản lý phiên bản, changelog, tải xuống.",
+                    category: "Utility",
+                    author: "dev-team",
+                    repo: "https://github.com/your-org/sample-tool",
+                    versions: [
+                        {
+                            version: "2.0.0",
+                            tag: "stable",
+                            date: "2025-01-20",
+                            downloadFile: "sample-tool-2.0.0.zip",
+                            fileSize: "4.2 MB",
+                            changes: ["🎨 Giao diện mới", "⚡ Tối ưu hiệu năng"]
+                        },
+                        {
+                            version: "beta-0.0.1",
+                            tag: "beta",
+                            date: "2024-10-15",
+                            downloadFile: "sample-tool-beta-0.0.1.zip",
+                            fileSize: "2.9 MB",
+                            changes: ["🧪 Bản beta đầu tiên"]
+                        }
+                    ]
+                },
+                {
+                    id: "code-formatter",
+                    name: "Code Formatter Pro",
+                    icon: "✨",
+                    description: "Công cụ định dạng code thông minh hỗ trợ nhiều ngôn ngữ.",
+                    category: "Developer",
+                    author: "dev-team",
+                    repo: "https://github.com/your-org/code-formatter",
+                    versions: [
+                        {
+                            version: "1.0.0",
+                            tag: "stable",
+                            date: "2025-01-05",
+                            downloadFile: "code-formatter-1.0.0.zip",
+                            fileSize: "1.8 MB",
+                            changes: ["🎉 Release chính thức"]
+                        }
+                    ]
+                }
+            ]
+        };
+
+        function renderTools(toolsData) {
+            const tools = toolsData.tools || [];
+            countSpan.textContent = tools.length;
+            if (tools.length === 0) {
+                grid.innerHTML = `<div class="empty-state"><i class="fas fa-box-open"></i><h3>Chưa có tool nào</h3><p style="color:#5a6f88;font-size:0.9rem;">Thêm tool vào thư mục <code>tools/</code> và cập nhật <code>tools.json</code>.</p></div>`;
+                return;
+            }
+            let html = '';
+            tools.forEach(tool => {
+                const latest = tool.versions[0] || {};
+                html += `
+                    <div class="tool-card">
+                        <div class="tool-header">
+                            <div class="tool-icon">${tool.icon || '🔧'}</div>
+                            <div>
+                                <div class="tool-name">${tool.name}</div>
+                                <div class="tool-id">${tool.id}</div>
+                            </div>
+                        </div>
+                        <div class="tool-description">${tool.description}</div>
+                        <div class="tool-meta">
+                            <span><i class="fas fa-folder"></i> ${tool.category || 'General'}</span>
+                            <span><i class="fas fa-user"></i> ${tool.author || 'unknown'}</span>
+                            <span><i class="fas fa-calendar-alt"></i> ${latest.date || 'N/A'}</span>
+                        </div>
+                        <a class="btn-detail" href="detail.html?id=${tool.id}">
+                            <i class="fas fa-info-circle"></i> Chi tiết & tải về
+                        </a>
+                    </div>
+                `;
+            });
+            grid.innerHTML = html;
+        }
+
+        // ----- THỬ FETCH tools.json -----
+        fetch('tools.json')
+            .then(res => {
+                if (!res.ok) throw new Error(`HTTP ${res.status} – Không tìm thấy tools.json`);
+                return res.json();
+            })
+            .then(data => {
+                renderTools(data);
+            })
+            .catch(err => {
+                console.warn('Không tải được tools.json, dùng dữ liệu mẫu:', err);
+                // Hiển thị thông báo lỗi nhẹ
+                const notice = document.createElement('div');
+                notice.style.cssText = 'background:rgba(251,191,36,0.1);border:1px solid #fbbf24;border-radius:12px;padding:0.8rem 1.2rem;margin-bottom:1.5rem;color:#fbbf24;text-align:center;grid-column:1/-1;';
+                notice.innerHTML = `<i class="fas fa-triangle-exclamation"></i> Không tìm thấy file <code>tools.json</code>. Đang hiển thị dữ liệu mẫu. Hãy tạo file <code>tools.json</code> cùng thư mục với <code>index.html</code>.`;
+                grid.parentNode.insertBefore(notice, grid);
+                renderTools(FALLBACK_TOOLS);
+            });
+    })();
+</script>
+</body>
+</html>
