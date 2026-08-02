@@ -1,19 +1,19 @@
 {
   "tools": [
     {
-      "id": "sample-tool",
-      "name": "Sample Tool",
-      "icon": "🚀",
+      "id": "GSAutoClicker-Rework",
+      "name": "GS AutoClicker Rework",
+      "icon": "gsautoclicker-rework.png",
       "description": "Một công cụ mẫu minh họa đầy đủ tính năng: quản lý phiên bản, changelog, tải xuống.",
       "category": "Utility",
       "author": "dev-team",
       "repo": "https://github.com/your-org/sample-tool",
       "versions": [
         {
-          "version": "2.0.0",
+          "version": "1.0.0",
           "tag": "stable",
           "date": "2025-01-20",
-          "downloadFile": "sample-tool-2.0.0.zip",
+          "downloadFile": "gsautoclicker-rework.zip",
           "changes": [
             "🎨 Giao diện mới hoàn toàn với dark mode",
             "⚡ Tối ưu hiệu năng xử lý dữ liệu lớn",
@@ -26,54 +26,13 @@
           "version": "beta-0.0.1",
           "tag": "beta",
           "date": "2024-10-15",
-          "downloadFile": "sample-tool-beta-0.0.1.zip",
+          "downloadFile": "gsautoclicker-rework.zip",
           "changes": [
             "🧪 Bản beta đầu tiên cho nhóm test",
             "⚙️ Thử nghiệm tính năng real-time sync",
             "📈 Biểu đồ tương tác với D3.js",
             "🔄 Cơ chế tự động backup dữ liệu"
           ]
-        }
-      ]
-    },
-    {
-      "id": "code-formatter",
-      "name": "Code Formatter Pro",
-      "icon": "✨",
-      "description": "Công cụ định dạng code thông minh hỗ trợ JavaScript, Python, TypeScript, và nhiều ngôn ngữ khác.",
-      "category": "Developer",
-      "author": "dev-team",
-      "repo": "https://github.com/your-org/code-formatter",
-      "versions": [
-        {
-          "version": "1.0.0",
-          "tag": "stable",
-          "date": "2025-01-05",
-          "downloadFile": "code-formatter-1.0.0.zip",
-          "changes": [
-            "🎉 Release chính thức đầu tiên",
-            "🌐 Hỗ trợ 15+ ngôn ngữ lập trình",
-            "⚙️ Tùy chỉnh rule formatting",
-            "💾 Lưu cấu hình dưới dạng JSON"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "my-new-tool",
-      "name": "My New Tool",
-      "icon": "🛠️",
-      "description": "Mô tả ngắn về tool này.",
-      "category": "Utility",
-      "author": "your-name",
-      "repo": "https://github.com/your-org/my-tool",
-      "versions": [
-        {
-          "version": "1.0.0",
-          "tag": "stable",
-          "date": "2025-02-01",
-          "downloadFile": "my-tool-1.0.0.zip",
-          "changes": ["✅ Bản phát hành đầu tiên"]
         }
       ]
     }

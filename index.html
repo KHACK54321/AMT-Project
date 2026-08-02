@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>🧰 Tool Repository</title>
+    <title>🧰 AM-Tool Repository</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <style>
+        /* ===== RESET & BASE ===== */
         * { margin:0; padding:0; box-sizing:border-box; }
         body {
             font-family: 'Segoe UI', system-ui, sans-serif;
@@ -15,46 +16,89 @@
             min-height: 100vh;
         }
         .container { max-width: 1200px; margin: 0 auto; }
+
+        /* ===== HEADER ===== */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
             gap: 1rem;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
             padding-bottom: 1.5rem;
             border-bottom: 1px solid rgba(255,255,255,0.06);
         }
-        .header-left { display: flex; align-items: center; gap: 0.75rem; }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .header-left .logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            object-fit: contain;
+            background: rgba(255,255,255,0.05);
+            padding: 4px;
+        }
         .header-left h1 {
             font-size: 1.8rem;
+            font-weight: 700;
             background: linear-gradient(135deg, #a78bfa, #60a5fa);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        .header-left .sub { font-size:0.85rem; color:#8899b0; -webkit-text-fill-color:#8899b0; }
+        .header-left .sub {
+            font-size: 0.85rem;
+            color: #8899b0;
+            -webkit-text-fill-color: #8899b0;
+            background: none;
+            font-weight: 400;
+            margin-left: 0.25rem;
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.9rem;
+            color: #8899b0;
+        }
         .header-right .badge {
             background: rgba(167,139,250,0.15);
-            border:1px solid rgba(167,139,250,0.2);
-            padding:0.3rem 0.9rem;
-            border-radius:20px;
-            font-size:0.75rem;
-            color:#a78bfa;
+            border: 1px solid rgba(167,139,250,0.2);
+            padding: 0.3rem 0.9rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: #a78bfa;
+            font-weight: 500;
         }
+        .header-right .version-badge {
+            background: rgba(96,165,250,0.1);
+            border: 1px solid rgba(96,165,250,0.15);
+            padding: 0.2rem 0.7rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            color: #60a5fa;
+        }
+
+        /* ===== TOOL GRID ===== */
         .tools-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px,1fr));
             gap: 1.5rem;
         }
+
+        /* ===== TOOL CARD ===== */
         .tool-card {
             background: rgba(20,28,40,0.7);
             backdrop-filter: blur(12px);
-            border:1px solid rgba(255,255,255,0.06);
-            border-radius:18px;
-            padding:1.5rem;
-            transition: all 0.3s;
-            position:relative;
-            overflow:hidden;
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 18px;
+            padding: 1.5rem;
+            transition: all 0.3s cubic-bezier(0.25,0.46,0.45,0.94);
+            position: relative;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
         }
@@ -64,134 +108,260 @@
             box-shadow: 0 20px 40px -12px rgba(0,0,0,0.6);
         }
         .tool-card::before {
-            content:'';
-            position:absolute;
-            top:0; left:0; right:0; height:2px;
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
             background: linear-gradient(90deg, #a78bfa, #60a5fa, #34d399);
-            opacity:0;
-            transition:opacity 0.3s;
+            opacity: 0;
+            transition: opacity 0.3s;
         }
-        .tool-card:hover::before { opacity:1; }
+        .tool-card:hover::before { opacity: 1; }
+
         .tool-header {
-            display:flex;
-            align-items:center;
-            gap:1rem;
-            margin-bottom:0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
         }
-        .tool-icon { font-size:2.2rem; line-height:1; flex-shrink:0; }
+        .tool-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            object-fit: contain;
+            background: rgba(255,255,255,0.05);
+            padding: 4px;
+            flex-shrink: 0;
+        }
+        .tool-icon.emoji {
+            font-size: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            padding: 0;
+            width: 60px;
+            height: 60px;
+        }
+        .tool-name-group {
+            flex: 1;
+            min-width: 0;
+        }
         .tool-name {
-            font-size:1.25rem;
-            font-weight:600;
-            color:#f0f4fa;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #f0f4fa;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .tool-name .version-badge {
+            font-size: 0.6rem;
+            font-weight: 600;
+            background: rgba(96,165,250,0.15);
+            color: #60a5fa;
+            padding: 0.15rem 0.6rem;
+            border-radius: 12px;
+            border: 1px solid rgba(96,165,250,0.15);
         }
         .tool-id {
-            font-size:0.7rem;
-            color:#5a6f88;
-            font-family:monospace;
-            background:rgba(255,255,255,0.04);
-            padding:0.1rem 0.5rem;
-            border-radius:4px;
-            display:inline-block;
-            margin-top:0.1rem;
+            font-size: 0.7rem;
+            color: #5a6f88;
+            font-family: monospace;
+            background: rgba(255,255,255,0.04);
+            padding: 0.1rem 0.5rem;
+            border-radius: 4px;
+            display: inline-block;
+            margin-top: 0.1rem;
         }
         .tool-description {
-            color:#b0c4db;
-            font-size:0.92rem;
-            line-height:1.6;
-            margin:0.3rem 0 0.8rem 0;
-            flex:1;
+            color: #b0c4db;
+            font-size: 0.92rem;
+            line-height: 1.6;
+            margin: 0.3rem 0 0.8rem 0;
+            flex: 1;
         }
         .tool-meta {
-            display:flex;
-            gap:1rem;
-            font-size:0.75rem;
-            color:#5a6f88;
-            margin-bottom:1rem;
-            flex-wrap:wrap;
+            display: flex;
+            gap: 1rem;
+            font-size: 0.75rem;
+            color: #5a6f88;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
         }
-        .tool-meta i { margin-right:0.2rem; }
+        .tool-meta i { margin-right: 0.2rem; }
         .tool-size {
             color: #60a5fa;
-            font-weight:500;
+            font-weight: 500;
         }
         .btn-detail {
-            display:inline-flex;
-            align-items:center;
-            gap:0.5rem;
-            padding:0.5rem 1.2rem;
-            border-radius:10px;
-            font-weight:600;
-            font-size:0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1.2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.85rem;
             background: linear-gradient(135deg, #7c3aed, #4f46e5);
-            color:#fff;
-            border:none;
-            cursor:pointer;
-            text-decoration:none;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
             transition: all 0.25s;
-            justify-content:center;
+            justify-content: center;
         }
-        .btn-detail:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(124,58,237,0.35); }
+        .btn-detail:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(124,58,237,0.35);
+        }
+
+        /* ===== CHANGELOG WEB ===== */
+        .web-changelog {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+        .web-changelog h2 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #e8edf5;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .web-changelog h2 i {
+            color: #a78bfa;
+        }
+        .changelog-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .changelog-item {
+            background: rgba(20,28,40,0.4);
+            border-radius: 12px;
+            padding: 1rem 1.2rem;
+            border-left: 3px solid #a78bfa;
+        }
+        .changelog-item .version {
+            font-weight: 700;
+            color: #a78bfa;
+            font-size: 0.9rem;
+        }
+        .changelog-item .date {
+            color: #5a6f88;
+            font-size: 0.8rem;
+            margin-left: 0.8rem;
+        }
+        .changelog-item .title {
+            font-weight: 600;
+            color: #e8edf5;
+            margin: 0.2rem 0 0.4rem 0;
+        }
+        .changelog-item ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .changelog-item ul li {
+            font-size: 0.85rem;
+            color: #b0c4db;
+            padding: 0.1rem 0 0.1rem 1.2rem;
+            position: relative;
+        }
+        .changelog-item ul li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #60a5fa;
+        }
+
+        /* ===== FOOTER ===== */
         .footer {
-            margin-top:3rem;
-            padding-top:1.5rem;
-            border-top:1px solid rgba(255,255,255,0.04);
-            text-align:center;
-            font-size:0.8rem;
-            color:#3b4a5e;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.04);
+            text-align: center;
+            font-size: 0.8rem;
+            color: #3b4a5e;
         }
-        .empty-state { text-align:center; padding:4rem 2rem; color:#5a6f88; grid-column:1/-1; }
-        .empty-state i { font-size:3rem; margin-bottom:1rem; opacity:0.3; }
-        .error-state { text-align:center; padding:4rem 2rem; color:#fb7185; grid-column:1/-1; }
-        .error-state i { font-size:3rem; margin-bottom:1rem; opacity:0.5; }
+        .footer a {
+            color: #5a6f88;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .footer a:hover { color: #a78bfa; }
+
+        /* ===== HELPERS ===== */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #5a6f88;
+            grid-column: 1/-1;
+        }
+        .empty-state i { font-size: 3rem; margin-bottom: 1rem; opacity: 0.3; }
         .loading-shimmer {
-            display:inline-block;
-            width:60px;
-            height:1em;
+            display: inline-block;
+            width: 60px;
+            height: 1em;
             background: linear-gradient(90deg, #3b4a5e 25%, #5a6f88 50%, #3b4a5e 75%);
             background-size: 200% 100%;
             animation: shimmer 1.5s infinite;
-            border-radius:4px;
-            vertical-align:middle;
+            border-radius: 4px;
+            vertical-align: middle;
         }
         @keyframes shimmer {
             0% { background-position: -200% 0; }
             100% { background-position: 200% 0; }
         }
         .notice {
-            background:rgba(251,191,36,0.1);
-            border:1px solid #fbbf24;
-            border-radius:12px;
-            padding:0.8rem 1.2rem;
-            margin-bottom:1.5rem;
-            color:#fbbf24;
-            text-align:center;
-            grid-column:1/-1;
+            background: rgba(251,191,36,0.1);
+            border: 1px solid #fbbf24;
+            border-radius: 12px;
+            padding: 0.8rem 1.2rem;
+            margin-bottom: 1.5rem;
+            color: #fbbf24;
+            text-align: center;
+            grid-column: 1/-1;
         }
-        @media (max-width:768px) {
-            body { padding:1rem; }
-            .header { flex-direction:column; align-items:flex-start; }
-            .tools-grid { grid-template-columns:1fr; }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .header { flex-direction: column; align-items: flex-start; }
+            .tools-grid { grid-template-columns: 1fr; }
+            .header-left .logo { width: 40px; height: 40px; }
         }
     </style>
 </head>
 <body>
 <div class="container">
+    <!-- HEADER -->
     <header class="header">
         <div class="header-left">
-            <span style="font-size:2.2rem;">🧰</span>
+            <img src="images/logo-dark.png" alt="AM-Tool Logo" class="logo" />
             <div>
-                <h1>Tool Repository <span class="sub">· GitHub Pages</span></h1>
+                <h1>AM-Tool Repository <span class="sub">· v1.0.0</span></h1>
             </div>
         </div>
         <div class="header-right">
             <span class="badge"><i class="fas fa-database"></i> <span id="toolCount">0</span> tools</span>
+            <span class="version-badge"><i class="fas fa-tag"></i> 1.0.0</span>
         </div>
     </header>
 
+    <!-- TOOLS GRID -->
     <div class="tools-grid" id="toolsGrid"></div>
 
+    <!-- WEB CHANGELOG -->
+    <div class="web-changelog" id="webChangelog">
+        <h2><i class="fas fa-history"></i> Cập nhật của Repository</h2>
+        <div id="changelogContainer" style="color:#5a6f88;text-align:center;padding:1rem 0;">Đang tải...</div>
+    </div>
+
     <footer class="footer">
-        <p><i class="fas fa-ghost"></i> Dữ liệu từ <code>tools.json</code> – Tải file từ <code>tools/</code> – Kích thước tự động lấy</p>
+        <p><i class="fas fa-ghost"></i> Dữ liệu từ <code>tools.json</code> – Ảnh từ <code>images/</code> – Tự động lấy kích thước file</p>
+        <p style="margin-top:0.3rem;">AM-Tool Repository &copy; 2025</p>
     </footer>
 </div>
 
@@ -199,39 +369,23 @@
     (function() {
         const grid = document.getElementById('toolsGrid');
         const countSpan = document.getElementById('toolCount');
+        const changelogContainer = document.getElementById('changelogContainer');
 
-        // ----- DỮ LIỆU MẪU (FALLBACK) -----
+        // ===== FALLBACK DATA =====
         const FALLBACK_TOOLS = {
             tools: [
-                {
-                    id: "sample-tool",
-                    name: "Sample Tool",
-                    icon: "🚀",
-                    description: "Một công cụ mẫu minh họa đầy đủ tính năng.",
-                    category: "Utility",
-                    author: "dev-team",
-                    repo: "https://github.com/your-org/sample-tool",
-                    versions: [
-                        { version: "2.0.0", tag: "stable", date: "2025-01-20", downloadFile: "sample-tool-2.0.0.zip" },
-                        { version: "beta-0.0.1", tag: "beta", date: "2024-10-15", downloadFile: "sample-tool-beta-0.0.1.zip" }
-                    ]
-                },
-                {
-                    id: "code-formatter",
-                    name: "Code Formatter Pro",
-                    icon: "✨",
-                    description: "Công cụ định dạng code thông minh.",
-                    category: "Developer",
-                    author: "dev-team",
-                    repo: "https://github.com/your-org/code-formatter",
-                    versions: [
-                        { version: "1.0.0", tag: "stable", date: "2025-01-05", downloadFile: "code-formatter-1.0.0.zip" }
-                    ]
-                }
+                { id: "sample-tool", name: "Sample Tool", icon: "sample-tool.png", description: "Một công cụ mẫu.", category: "Utility", author: "dev-team", versions: [{ version: "2.0.0", tag: "stable", date: "2025-01-20", downloadFile: "sample-tool-2.0.0.zip" }] },
+                { id: "code-formatter", name: "Code Formatter Pro", icon: "code-formatter.png", description: "Công cụ định dạng code.", category: "Developer", author: "dev-team", versions: [{ version: "1.0.0", tag: "stable", date: "2025-01-05", downloadFile: "code-formatter-1.0.0.zip" }] }
             ]
         };
 
-        // ----- Hàm lấy kích thước file -----
+        const FALLBACK_CHANGELOG = {
+            updates: [
+                { version: "1.0.0", date: "2025-02-15", title: "🎉 Phát hành AM-Tool Repository 1.0.0", changes: ["🚀 Ra mắt chính thức", "🖼️ Hỗ trợ ảnh đại diện", "📝 Thêm update log web"] }
+            ]
+        };
+
+        // ===== HÀM LẤY KÍCH THƯỚC FILE =====
         function getFileSize(url) {
             return fetch(url, { method: 'HEAD' })
                 .then(res => {
@@ -240,9 +394,8 @@
                     if (size) {
                         const bytes = parseInt(size, 10);
                         return formatSize(bytes);
-                    } else {
-                        return null;
                     }
+                    return null;
                 })
                 .catch(() => null);
         }
@@ -254,7 +407,7 @@
             return (bytes / 1073741824).toFixed(2) + ' GB';
         }
 
-        // ----- Render danh sách tool -----
+        // ===== RENDER TOOLS =====
         function renderTools(toolsData) {
             const tools = toolsData.tools || [];
             countSpan.textContent = tools.length;
@@ -269,12 +422,25 @@
                 const fileUrl = `tools/${tool.id}/${latest.downloadFile || ''}`;
                 const sizePlaceholder = `<span class="loading-shimmer"></span>`;
 
+                // Xác định hiển thị icon
+                let iconHtml = '';
+                if (tool.icon && tool.icon.includes('.')) {
+                    // Có thể là file ảnh
+                    iconHtml = `<img src="images/${tool.icon}" alt="${tool.name}" class="tool-icon" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=\\'tool-icon emoji\\'>🔧</span>';" />`;
+                } else {
+                    // Emoji
+                    iconHtml = `<span class="tool-icon emoji">${tool.icon || '🔧'}</span>`;
+                }
+
                 html += `
                     <div class="tool-card" data-tool-index="${index}">
                         <div class="tool-header">
-                            <div class="tool-icon">${tool.icon || '🔧'}</div>
-                            <div>
-                                <div class="tool-name">${tool.name}</div>
+                            ${iconHtml}
+                            <div class="tool-name-group">
+                                <div class="tool-name">
+                                    ${tool.name}
+                                    <span class="version-badge">${latest.version}</span>
+                                </div>
                                 <div class="tool-id">${tool.id}</div>
                             </div>
                         </div>
@@ -293,7 +459,7 @@
             });
             grid.innerHTML = html;
 
-            // Lấy kích thước file cho từng tool
+            // Lấy kích thước file
             tools.forEach((tool, index) => {
                 const latest = tool.versions[0];
                 if (!latest || !latest.downloadFile) return;
@@ -312,22 +478,59 @@
             });
         }
 
-        // ----- THỬ FETCH tools.json -----
+        // ===== RENDER WEB CHANGELOG =====
+        function renderWebChangelog(data) {
+            const updates = data.updates || [];
+            if (updates.length === 0) {
+                changelogContainer.innerHTML = '<div style="color:#5a6f88;">Chưa có cập nhật nào.</div>';
+                return;
+            }
+            let html = '<div class="changelog-timeline">';
+            updates.forEach(item => {
+                html += `
+                    <div class="changelog-item">
+                        <div>
+                            <span class="version">${item.version}</span>
+                            <span class="date">${item.date}</span>
+                        </div>
+                        <div class="title">${item.title}</div>
+                        <ul>
+                            ${item.changes.map(c => `<li>${c}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            changelogContainer.innerHTML = html;
+        }
+
+        // ===== FETCH DATA =====
+        // Fetch tools.json
         fetch('tools.json')
             .then(res => {
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
                 return res.json();
             })
-            .then(data => {
-                renderTools(data);
-            })
+            .then(data => renderTools(data))
             .catch(err => {
                 console.warn('Không tải được tools.json, dùng fallback:', err);
                 const notice = document.createElement('div');
                 notice.className = 'notice';
-                notice.innerHTML = `<i class="fas fa-triangle-exclamation"></i> Không tìm thấy <code>tools.json</code>. Đang hiển thị dữ liệu mẫu. Hãy tạo file <code>tools.json</code> cùng thư mục.`;
+                notice.innerHTML = `<i class="fas fa-triangle-exclamation"></i> Không tìm thấy <code>tools.json</code>. Đang hiển thị dữ liệu mẫu.`;
                 grid.parentNode.insertBefore(notice, grid);
                 renderTools(FALLBACK_TOOLS);
+            });
+
+        // Fetch changelog.json
+        fetch('changelog.json')
+            .then(res => {
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                return res.json();
+            })
+            .then(data => renderWebChangelog(data))
+            .catch(err => {
+                console.warn('Không tải được changelog.json, dùng fallback:', err);
+                renderWebChangelog(FALLBACK_CHANGELOG);
             });
     })();
 </script>
