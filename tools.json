@@ -14,7 +14,6 @@
           "tag": "stable",
           "date": "2025-01-20",
           "downloadFile": "sample-tool-2.0.0.zip",
-          "fileSize": "4.2 MB",
           "changes": [
             "🎨 Giao diện mới hoàn toàn với dark mode",
             "⚡ Tối ưu hiệu năng xử lý dữ liệu lớn",
@@ -28,7 +27,6 @@
           "tag": "beta",
           "date": "2024-10-15",
           "downloadFile": "sample-tool-beta-0.0.1.zip",
-          "fileSize": "2.9 MB",
           "changes": [
             "🧪 Bản beta đầu tiên cho nhóm test",
             "⚙️ Thử nghiệm tính năng real-time sync",
@@ -52,13 +50,30 @@
           "tag": "stable",
           "date": "2025-01-05",
           "downloadFile": "code-formatter-1.0.0.zip",
-          "fileSize": "1.8 MB",
           "changes": [
             "🎉 Release chính thức đầu tiên",
             "🌐 Hỗ trợ 15+ ngôn ngữ lập trình",
             "⚙️ Tùy chỉnh rule formatting",
             "💾 Lưu cấu hình dưới dạng JSON"
           ]
+        }
+      ]
+    },
+    {
+      "id": "my-new-tool",
+      "name": "My New Tool",
+      "icon": "🛠️",
+      "description": "Mô tả ngắn về tool này.",
+      "category": "Utility",
+      "author": "your-name",
+      "repo": "https://github.com/your-org/my-tool",
+      "versions": [
+        {
+          "version": "1.0.0",
+          "tag": "stable",
+          "date": "2025-02-01",
+          "downloadFile": "my-tool-1.0.0.zip",
+          "changes": ["✅ Bản phát hành đầu tiên"]
         }
       ]
     }
