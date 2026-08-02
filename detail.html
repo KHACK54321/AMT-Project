@@ -6,7 +6,6 @@
     <title>Chi tiết Tool</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <style>
-        /* (Giữ nguyên CSS như trước) */
         * { margin:0; padding:0; box-sizing:border-box; }
         body {
             font-family: 'Segoe UI', system-ui, sans-serif;
@@ -180,7 +179,11 @@
             transition:all 0.25s;
         }
         .btn-download:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(124,58,237,0.35); }
-        .btn-download .file-size { font-weight:400; font-size:0.75rem; opacity:0.7; }
+        .btn-download .file-size {
+            font-weight:400;
+            font-size:0.75rem;
+            opacity:0.7;
+        }
         .btn-download.secondary {
             background:rgba(255,255,255,0.06);
             border:1px solid rgba(255,255,255,0.08);
@@ -211,6 +214,20 @@
         }
         .toast.show { transform:translateY(0); opacity:1; }
         .toast i { color:#34d399; font-size:1.1rem; }
+        .loading-shimmer {
+            display:inline-block;
+            width:60px;
+            height:1em;
+            background: linear-gradient(90deg, #3b4a5e 25%, #5a6f88 50%, #3b4a5e 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius:4px;
+            vertical-align:middle;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
         @media (max-width:600px) {
             body { padding:1rem; }
             .tool-header { flex-direction:column; align-items:center; text-align:center; }
@@ -248,7 +265,30 @@
             toastTimer = setTimeout(() => { toast.classList.remove('show'); toastTimer = null; }, 3500);
         }
 
-        // ----- DỮ LIỆU MẪU (giống với fallback ở index) -----
+        // ----- Hàm lấy kích thước file -----
+        function getFileSize(url) {
+            return fetch(url, { method: 'HEAD' })
+                .then(res => {
+                    if (!res.ok) throw new Error('File not found');
+                    const size = res.headers.get('content-length');
+                    if (size) {
+                        const bytes = parseInt(size, 10);
+                        return formatSize(bytes);
+                    } else {
+                        return null;
+                    }
+                })
+                .catch(() => null);
+        }
+
+        function formatSize(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+            if (bytes < 1073741824) return (bytes / 1048576).toFixed(1) + ' MB';
+            return (bytes / 1073741824).toFixed(2) + ' GB';
+        }
+
+        // ----- DỮ LIỆU MẪU (FALLBACK) -----
         const FALLBACK_TOOLS = {
             tools: [
                 {
@@ -265,7 +305,6 @@
                             tag: "stable",
                             date: "2025-01-20",
                             downloadFile: "sample-tool-2.0.0.zip",
-                            fileSize: "4.2 MB",
                             changes: ["🎨 Giao diện mới", "⚡ Tối ưu hiệu năng"]
                         },
                         {
@@ -273,7 +312,6 @@
                             tag: "beta",
                             date: "2024-10-15",
                             downloadFile: "sample-tool-beta-0.0.1.zip",
-                            fileSize: "2.9 MB",
                             changes: ["🧪 Bản beta đầu tiên"]
                         }
                     ]
@@ -292,7 +330,6 @@
                             tag: "stable",
                             date: "2025-01-05",
                             downloadFile: "code-formatter-1.0.0.zip",
-                            fileSize: "1.8 MB",
                             changes: ["🎉 Release chính thức"]
                         }
                     ]
@@ -368,7 +405,7 @@
                     <div class="download-area">
                         <a class="btn-download" id="downloadBtn" href="tools/${tool.id}/${defaultVer.downloadFile}" download>
                             <i class="fas fa-download"></i> Tải xuống
-                            <span class="file-size">${defaultVer.fileSize ? `(${defaultVer.fileSize})` : ''}</span>
+                            <span class="file-size" id="fileSizeDisplay">${defaultVer.fileSize ? `(${defaultVer.fileSize})` : ''}</span>
                         </a>
                         ${tool.repo ? `<a class="btn-download secondary" href="${tool.repo}" target="_blank"><i class="fab fa-github"></i> Xem source</a>` : ''}
                     </div>
@@ -376,6 +413,22 @@
             `;
 
             container.innerHTML = html;
+
+            // Lấy kích thước file cho phiên bản mặc định
+            const fileUrl = `tools/${tool.id}/${defaultVer.downloadFile}`;
+            const sizeSpan = document.getElementById('fileSizeDisplay');
+            if (sizeSpan) {
+                // Hiển thị loading
+                sizeSpan.innerHTML = ` <span class="loading-shimmer"></span>`;
+                getFileSize(fileUrl).then(sizeStr => {
+                    if (sizeStr) {
+                        sizeSpan.innerHTML = ` (${sizeStr})`;
+                    } else {
+                        sizeSpan.innerHTML = ` (file không tồn tại)`;
+                        sizeSpan.style.color = '#fb7185';
+                    }
+                });
+            }
 
             // Sự kiện select
             const select = document.getElementById('versionSelect');
@@ -399,17 +452,42 @@
                     ${renderChangelog(ver.changes, ver.date)}
                 `;
 
-                downloadBtn.href = `tools/${tool.id}/${ver.downloadFile}`;
-                downloadBtn.innerHTML = `
-                    <i class="fas fa-download"></i> Tải xuống
-                    ${ver.fileSize ? `<span class="file-size">(${ver.fileSize})</span>` : ''}
-                `;
+                const newFileUrl = `tools/${tool.id}/${ver.downloadFile}`;
+                downloadBtn.href = newFileUrl;
+                // Cập nhật kích thước file
+                const sizeSpan2 = document.getElementById('fileSizeDisplay');
+                if (sizeSpan2) {
+                    sizeSpan2.innerHTML = ` <span class="loading-shimmer"></span>`;
+                    getFileSize(newFileUrl).then(sizeStr => {
+                        if (sizeStr) {
+                            sizeSpan2.innerHTML = ` (${sizeStr})`;
+                            sizeSpan2.style.color = '';
+                        } else {
+                            sizeSpan2.innerHTML = ` (file không tồn tại)`;
+                            sizeSpan2.style.color = '#fb7185';
+                        }
+                    });
+                }
 
                 showToast(`Đã chuyển sang phiên bản ${ver.version}`);
             });
 
             downloadBtn.addEventListener('click', function(e) {
-                showToast(`⏳ Đang tải ${tool.name} phiên bản ${versions[select.value].version}...`);
+                // Kiểm tra nếu file tồn tại (có thể kiểm tra bằng HEAD)
+                const url = this.href;
+                fetch(url, { method: 'HEAD' })
+                    .then(res => {
+                        if (!res.ok) {
+                            showToast(`❌ File không tồn tại: ${url}`, true);
+                            e.preventDefault();
+                        } else {
+                            showToast(`⏳ Đang tải ${tool.name} phiên bản ${versions[select.value].version}...`);
+                        }
+                    })
+                    .catch(() => {
+                        showToast(`❌ Lỗi kết nối khi kiểm tra file`, true);
+                        e.preventDefault();
+                    });
             });
         }
 
@@ -443,7 +521,6 @@
             })
             .catch(err => {
                 console.warn('Không tải được tools.json, dùng fallback:', err);
-                // Hiển thị thông báo nhẹ
                 const notice = document.createElement('div');
                 notice.style.cssText = 'background:rgba(251,191,36,0.1);border:1px solid #fbbf24;border-radius:12px;padding:0.8rem 1.2rem;margin-bottom:1.5rem;color:#fbbf24;text-align:center;';
                 notice.innerHTML = `<i class="fas fa-triangle-exclamation"></i> Không tìm thấy file <code>tools.json</code>. Đang hiển thị dữ liệu mẫu. Hãy tạo file <code>tools.json</code> cùng thư mục.`;
