@@ -25,6 +25,8 @@
             transition:color 0.2s;
         }
         .back-link:hover { color:#a78bfa; }
+
+        /* HEADER TOOL */
         .tool-header {
             display:flex;
             align-items:center;
@@ -42,15 +44,12 @@
             justify-content: center;
             font-size: 3rem;
             overflow: hidden;
-            flex-shrink: 0;
+            flex-shrink:0;
         }
         .tool-avatar img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-        }
-        .tool-info {
-            flex:1;
         }
         .tool-name {
             font-size:2rem;
@@ -85,6 +84,8 @@
             margin-bottom:2rem;
         }
         .tool-meta i { margin-right:0.3rem; }
+
+        /* VERSION SELECTOR */
         .version-section {
             background:rgba(20,28,40,0.5);
             border-radius:16px;
@@ -104,10 +105,12 @@
             color:#8899b0;
             font-size:0.9rem;
         }
+        /* ===== VỊ TRÍ CẦN SỬA MÀU CHỮ DROPDOWN ===== */
         .version-select {
             background:rgba(255,255,255,0.06);
             border:1px solid rgba(255,255,255,0.08);
-            color:#e8edf5;
+            color: #f0f4fa;           /* Màu chữ – bạn có thể đổi sang màu sáng hơn */
+            font-weight: 900;          /* Thêm font-weight để chữ đậm hơn */
             padding:0.4rem 1.8rem 0.4rem 0.8rem;
             border-radius:8px;
             font-size:0.9rem;
@@ -132,44 +135,95 @@
         .version-tag.beta   { background:rgba(251,191,36,0.15);  color:#fbbf24; border:1px solid rgba(251,191,36,0.15); }
         .version-tag.alpha  { background:rgba(251,113,133,0.15); color:#fb7185; border:1px solid rgba(251,113,133,0.15); }
 
-        /* Changelog của từng phiên bản (chỉ hiển thị phiên bản đang chọn) */
-        .version-changelog {
-            background:rgba(0,0,0,0.2);
-            border-radius:12px;
-            padding:0.8rem 1.2rem;
-            margin-top:0.8rem;
-            transition: all 0.3s;
+        /* CHANGELOG CHO TỪNG PHIÊN BẢN (Accordion) */
+        .changelog-wrapper {
+            margin-top: 0.5rem;
         }
-        .version-changelog .changelog-header {
-            font-size:0.8rem;
-            font-weight:600;
-            color:#8899b0;
-            text-transform:uppercase;
-            letter-spacing:0.5px;
-            margin-bottom:0.4rem;
-            display:flex;
-            align-items:center;
-            gap:0.5rem;
+        .changelog-wrapper h4 {
+            font-size: 0.8rem;
+            color: #8899b0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
-        .version-changelog ul {
-            list-style:none;
-            padding:0;
-            margin:0;
+        .version-changelog-item {
+            margin-bottom: 0.5rem;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            overflow: hidden;
+            background: rgba(0,0,0,0.15);
         }
-        .version-changelog li {
-            font-size:0.9rem;
-            color:#b8cce0;
-            padding:0.25rem 0 0.25rem 1.5rem;
-            position:relative;
-            line-height:1.5;
+        .version-changelog-header {
+            width: 100%;
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: none;
+            color: #e8edf5;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+            text-align: left;
         }
-        .version-changelog li::before {
-            content:'▸';
-            position:absolute;
-            left:0;
-            color:#60a5fa;
+        .version-changelog-header:hover {
+            background: rgba(255,255,255,0.04);
+        }
+        .version-changelog-header .ver-tag {
+            font-size: 0.6rem;
+            padding: 0.1rem 0.5rem;
+            border-radius: 10px;
+            margin-left: 0.5rem;
+            text-transform: uppercase;
+        }
+        .version-changelog-header .ver-tag.stable { background: rgba(52,211,153,0.15); color: #34d399; }
+        .version-changelog-header .ver-tag.beta   { background: rgba(251,191,36,0.15); color: #fbbf24; }
+        .version-changelog-header .ver-tag.alpha  { background: rgba(251,113,133,0.15); color: #fb7185; }
+        .version-changelog-header .toggle-icon {
+            transition: transform 0.3s;
+            font-size: 0.7rem;
+            color: #8899b0;
+        }
+        .version-changelog-header .toggle-icon.open {
+            transform: rotate(180deg);
+        }
+        .version-changelog-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            padding: 0 1rem;
+        }
+        .version-changelog-body.open {
+            max-height: 400px;
+            padding: 0.3rem 1rem 0.8rem 1rem;
+        }
+        .version-changelog-body ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .version-changelog-body ul li {
+            padding: 0.2rem 0 0.2rem 1.3rem;
+            position: relative;
+            color: #b8cce0;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+        .version-changelog-body ul li:last-child { border-bottom: none; }
+        .version-changelog-body ul li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #60a5fa;
         }
 
+        /* DOWNLOAD AREA */
         .download-area {
             display:flex;
             align-items:center;
@@ -207,6 +261,7 @@
             color:#b0c4db;
         }
         .btn-download.secondary:hover { background:rgba(255,255,255,0.1); transform:translateY(-2px); }
+
         .error-msg { color:#fb7185; padding:2rem; text-align:center; }
         .toast {
             position:fixed;
@@ -290,7 +345,7 @@
             toastTimer = setTimeout(() => { toast.classList.remove('show'); toastTimer = null; }, 3500);
         }
 
-        // ----- Lấy kích thước file -----
+        // ----- HÀM LẤY KÍCH THƯỚC FILE -----
         function getFileSize(url) {
             return fetch(url, { method: 'HEAD' })
                 .then(res => {
@@ -299,13 +354,11 @@
                     if (size) {
                         const bytes = parseInt(size, 10);
                         return formatSize(bytes);
-                    } else {
-                        return null;
                     }
+                    return null;
                 })
                 .catch(() => null);
         }
-
         function formatSize(bytes) {
             if (bytes < 1024) return bytes + ' B';
             if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
@@ -319,7 +372,7 @@
                 id: "GSAutoClicker-Rework",
                 name: "GS AutoClicker Rework",
                 icon: "🖱️",
-                description: "Công cụ tự động click chuột với giao diện hiện đại.",
+                description: "Công cụ tự động click chuột.",
                 category: "Utility",
                 author: "KHACK54321",
                 repo: "https://github.com/KHACK54321/AMT-Project",
@@ -349,6 +402,7 @@
             renderTool(tool);
         }
 
+        // ----- RENDER TOOL (chọn phiên bản nào hiện phiên bản đó) -----
         function renderTool(tool) {
             const versions = tool.versions || [];
             if (versions.length === 0) {
@@ -356,27 +410,23 @@
                 return;
             }
 
-            // Tạo dropdown
+            // Tạo dropdown options
             let optionsHtml = '';
             versions.forEach((v, idx) => {
                 const selected = idx === 0 ? 'selected' : '';
                 optionsHtml += `<option value="${idx}" ${selected}>${v.version} ${v.tag ? `[${v.tag}]` : ''}</option>`;
             });
 
-            // Lấy phiên bản đầu tiên làm mặc định
             const defaultVer = versions[0];
             const tagClass = getTagClass(defaultVer.tag);
-
-            // Xác định avatar
-            let avatarHtml = tool.icon || '🔧';
-            if (tool.image) {
-                avatarHtml = `<img src="${tool.image}" alt="${tool.name}" onerror="this.style.display='none';this.parentElement.innerHTML='${tool.icon || '🔧'}'">`;
-            }
+            const avatarHtml = tool.image
+                ? `<img src="${tool.image}" alt="${tool.name}" onerror="this.parentElement.innerHTML='${tool.icon || '🔧'}'">`
+                : tool.icon || '🔧';
 
             const html = `
                 <div class="tool-header">
                     <div class="tool-avatar">${avatarHtml}</div>
-                    <div class="tool-info">
+                    <div>
                         <div class="tool-name">${tool.name}</div>
                         <div class="tool-id">${tool.id}</div>
                     </div>
@@ -395,15 +445,15 @@
                             ${optionsHtml}
                         </select>
                         <span class="version-tag ${tagClass}" id="versionTag">${defaultVer.tag || 'stable'}</span>
-                        <span style="font-size:0.8rem;color:#5a6f88;margin-left:auto;"><i class="far fa-calendar-alt"></i> <span id="versionDate">${defaultVer.date || ''}</span></span>
+                        <span style="font-size:0.8rem;color:#5a6f88;margin-left:auto;"><i class="far fa-calendar-alt"></i> ${defaultVer.date || ''}</span>
                     </div>
 
-                    <!-- Changelog của phiên bản đang chọn -->
-                    <div class="version-changelog" id="versionChangelog">
-                        <div class="changelog-header"><i class="fas fa-list-ul"></i> Update log</div>
-                        <ul id="changelogList">
-                            ${(defaultVer.changes || []).map(change => `<li>${change}</li>`).join('')}
-                        </ul>
+                    <!-- Changelog của phiên bản đang chọn (dạng accordion) -->
+                    <div class="changelog-wrapper">
+                        <h4><i class="fas fa-list-ul"></i> Update log</h4>
+                        <div id="versionChangelogContainer">
+                            <!-- JS sẽ render -->
+                        </div>
                     </div>
 
                     <div class="download-area">
@@ -432,13 +482,14 @@
                 });
             }
 
-            // Sự kiện change cho dropdown
+            // Render changelog cho phiên bản mặc định (dạng accordion)
+            renderVersionChangelog([defaultVer]);
+
+            // Sự kiện đổi phiên bản
             const select = document.getElementById('versionSelect');
             const tagSpan = document.getElementById('versionTag');
-            const dateSpan = document.getElementById('versionDate');
-            const changelogList = document.getElementById('changelogList');
             const downloadBtn = document.getElementById('downloadBtn');
-            const fileSizeDisplay = document.getElementById('fileSizeDisplay');
+            const changelogContainer = document.getElementById('versionChangelogContainer');
 
             select.addEventListener('change', function() {
                 const idx = parseInt(this.value);
@@ -449,26 +500,26 @@
                 tagSpan.textContent = ver.tag || 'stable';
                 tagSpan.className = `version-tag ${getTagClass(ver.tag)}`;
 
-                // Cập nhật ngày
-                dateSpan.textContent = ver.date || '';
+                // Cập nhật ngày tháng
+                const dateSpan = this.parentElement.querySelector('span:last-child');
+                if (dateSpan) dateSpan.innerHTML = `<i class="far fa-calendar-alt"></i> ${ver.date || ''}`;
 
-                // Cập nhật changelog
-                changelogList.innerHTML = (ver.changes || []).map(change => `<li>${change}</li>`).join('');
+                // Cập nhật changelog (chỉ hiển thị phiên bản được chọn)
+                renderVersionChangelog([ver]);
 
-                // Cập nhật link tải
+                // Cập nhật nút tải
                 const newFileUrl = `tools/${tool.id}/${ver.downloadFile}`;
                 downloadBtn.href = newFileUrl;
-
-                // Cập nhật kích thước file
-                if (fileSizeDisplay) {
-                    fileSizeDisplay.innerHTML = ` <span class="loading-shimmer"></span>`;
+                const sizeSpan2 = document.getElementById('fileSizeDisplay');
+                if (sizeSpan2) {
+                    sizeSpan2.innerHTML = ` <span class="loading-shimmer"></span>`;
                     getFileSize(newFileUrl).then(sizeStr => {
                         if (sizeStr) {
-                            fileSizeDisplay.innerHTML = ` (${sizeStr})`;
-                            fileSizeDisplay.style.color = '';
+                            sizeSpan2.innerHTML = ` (${sizeStr})`;
+                            sizeSpan2.style.color = '';
                         } else {
-                            fileSizeDisplay.innerHTML = ` (không tìm thấy file)`;
-                            fileSizeDisplay.style.color = '#fb7185';
+                            sizeSpan2.innerHTML = ` (không tìm thấy file)`;
+                            sizeSpan2.style.color = '#fb7185';
                         }
                     });
                 }
@@ -476,7 +527,7 @@
                 showToast(`Đã chuyển sang phiên bản ${ver.version}`);
             });
 
-            // Sự kiện click download
+            // Kiểm tra file khi tải
             downloadBtn.addEventListener('click', function(e) {
                 const url = this.href;
                 fetch(url, { method: 'HEAD' })
@@ -495,6 +546,54 @@
             });
         }
 
+        // ----- RENDER CHANGELOG CHO MỘT PHIÊN BẢN (dạng accordion) -----
+        function renderVersionChangelog(versions) {
+            const container = document.getElementById('versionChangelogContainer');
+            if (!container) return;
+            if (!versions || versions.length === 0) {
+                container.innerHTML = '<div style="color:#5a6f88;font-style:italic;padding:0.3rem 0;">Không có ghi chú.</div>';
+                return;
+            }
+
+            let html = '';
+            versions.forEach((ver, index) => {
+                const isFirst = index === 0;
+                const tagClass = ver.tag === 'stable' ? 'stable' : ver.tag === 'beta' ? 'beta' : 'alpha';
+                const changes = ver.changes || [];
+                if (changes.length === 0) {
+                    html += `<div style="color:#5a6f88;font-style:italic;padding:0.3rem 0;">Không có ghi chú cho phiên bản ${ver.version}.</div>`;
+                    return;
+                }
+                html += `
+                    <div class="version-changelog-item">
+                        <button class="version-changelog-header" onclick="toggleVersionChangelog(this)" aria-expanded="${isFirst}">
+                            <span>
+                                <strong>${ver.version}</strong>
+                                <span class="ver-tag ${tagClass}">${ver.tag || 'stable'}</span>
+                                <span style="font-size:0.7rem;color:#5a6f88;margin-left:0.5rem;">${ver.date || ''}</span>
+                            </span>
+                            <i class="fas fa-chevron-down toggle-icon ${isFirst ? 'open' : ''}"></i>
+                        </button>
+                        <div class="version-changelog-body ${isFirst ? 'open' : ''}">
+                            <ul>
+                                ${changes.map(change => `<li>${change}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        // Hàm toggle cho changelog phiên bản (global)
+        window.toggleVersionChangelog = function(btn) {
+            const body = btn.nextElementSibling;
+            const icon = btn.querySelector('.toggle-icon');
+            body.classList.toggle('open');
+            icon.classList.toggle('open');
+            btn.setAttribute('aria-expanded', body.classList.contains('open'));
+        };
+
         function getTagClass(tag) {
             if (tag === 'stable') return 'stable';
             if (tag === 'beta') return 'beta';
@@ -502,7 +601,7 @@
             return 'stable';
         }
 
-        // ----- FETCH tools.json -----
+        // ----- FETCH DỮ LIỆU -----
         fetch('tools.json')
             .then(res => {
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -515,7 +614,7 @@
                 console.warn('Không tải được tools.json, dùng fallback:', err);
                 const notice = document.createElement('div');
                 notice.className = 'notice';
-                notice.innerHTML = `<i class="fas fa-triangle-exclamation"></i> Không tìm thấy <code>tools.json</code>. Đang hiển thị dữ liệu mẫu.`;
+                notice.innerHTML = `<i class="fas fa-triangle-exclamation"></i> Không tìm thấy <code>tools.json</code>. Đang dùng dữ liệu mẫu.`;
                 container.parentNode.insertBefore(notice, container);
                 renderToolFromData(FALLBACK_TOOLS);
             });
