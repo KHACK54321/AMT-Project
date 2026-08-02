@@ -3,23 +3,23 @@
     {
       "version": "1.0.0",
       "date": "2025-02-15",
-      "title": "🎉 Phát hành AM-Tool Repository 1.0.0",
+      "title": "Phát hành AM-Tool Repository 1.0.0",
       "changes": [
-        "🚀 Ra mắt phiên bản chính thức đầu tiên",
-        "🖼️ Hỗ trợ ảnh đại diện cho từng tool",
-        "📝 Thêm update log cho web",
-        "🎨 Giao diện tối ưu và chuyên nghiệp hơn",
+        "🎉 Ra mắt trang web chính thức",
+        "🖼️ Hỗ trợ ảnh đại diện cho tool",
+        "📝 Hiển thị changelog dạng popover",
+        "🎨 Giao diện tối ưu và chuyên nghiệp",
         "📦 Tự động lấy kích thước file tải về"
       ]
     },
     {
       "version": "1.0.0-beta",
       "date": "2025-02-10",
-      "title": "🧪 Bản beta trước khi ra mắt",
+      "title": "Bản beta trước khi ra mắt",
       "changes": [
-        "Thêm tính năng chọn phiên bản",
-        "Hiển thị changelog cho từng phiên bản tool",
-        "Cải thiện hiệu suất tải trang"
+        "🧪 Thử nghiệm giao diện cơ bản",
+        "📂 Hiển thị danh sách tool từ JSON",
+        "🔗 Liên kết tới trang chi tiết"
       ]
     }
   ]
