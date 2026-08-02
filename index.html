@@ -157,6 +157,16 @@
             0% { background-position: -200% 0; }
             100% { background-position: 200% 0; }
         }
+        .notice {
+            background:rgba(251,191,36,0.1);
+            border:1px solid #fbbf24;
+            border-radius:12px;
+            padding:0.8rem 1.2rem;
+            margin-bottom:1.5rem;
+            color:#fbbf24;
+            text-align:center;
+            grid-column:1/-1;
+        }
         @media (max-width:768px) {
             body { padding:1rem; }
             .header { flex-direction:column; align-items:flex-start; }
@@ -181,7 +191,7 @@
     <div class="tools-grid" id="toolsGrid"></div>
 
     <footer class="footer">
-        <p><i class="fas fa-ghost"></i> Dữ liệu từ <code>tools.json</code> – Tải file từ <code>tools/</code> – Kích thước file tự động lấy</p>
+        <p><i class="fas fa-ghost"></i> Dữ liệu từ <code>tools.json</code> – Tải file từ <code>tools/</code> – Kích thước tự động lấy</p>
     </footer>
 </div>
 
@@ -197,46 +207,31 @@
                     id: "sample-tool",
                     name: "Sample Tool",
                     icon: "🚀",
-                    description: "Một công cụ mẫu minh họa đầy đủ tính năng: quản lý phiên bản, changelog, tải xuống.",
+                    description: "Một công cụ mẫu minh họa đầy đủ tính năng.",
                     category: "Utility",
                     author: "dev-team",
                     repo: "https://github.com/your-org/sample-tool",
                     versions: [
-                        {
-                            version: "2.0.0",
-                            tag: "stable",
-                            date: "2025-01-20",
-                            downloadFile: "sample-tool-2.0.0.zip"
-                        },
-                        {
-                            version: "beta-0.0.1",
-                            tag: "beta",
-                            date: "2024-10-15",
-                            downloadFile: "sample-tool-beta-0.0.1.zip"
-                        }
+                        { version: "2.0.0", tag: "stable", date: "2025-01-20", downloadFile: "sample-tool-2.0.0.zip" },
+                        { version: "beta-0.0.1", tag: "beta", date: "2024-10-15", downloadFile: "sample-tool-beta-0.0.1.zip" }
                     ]
                 },
                 {
                     id: "code-formatter",
                     name: "Code Formatter Pro",
                     icon: "✨",
-                    description: "Công cụ định dạng code thông minh hỗ trợ nhiều ngôn ngữ.",
+                    description: "Công cụ định dạng code thông minh.",
                     category: "Developer",
                     author: "dev-team",
                     repo: "https://github.com/your-org/code-formatter",
                     versions: [
-                        {
-                            version: "1.0.0",
-                            tag: "stable",
-                            date: "2025-01-05",
-                            downloadFile: "code-formatter-1.0.0.zip"
-                        }
+                        { version: "1.0.0", tag: "stable", date: "2025-01-05", downloadFile: "code-formatter-1.0.0.zip" }
                     ]
                 }
             ]
         };
 
-        // ----- Hàm lấy kích thước file từ server (HEAD) -----
+        // ----- Hàm lấy kích thước file -----
         function getFileSize(url) {
             return fetch(url, { method: 'HEAD' })
                 .then(res => {
@@ -264,7 +259,7 @@
             const tools = toolsData.tools || [];
             countSpan.textContent = tools.length;
             if (tools.length === 0) {
-                grid.innerHTML = `<div class="empty-state"><i class="fas fa-box-open"></i><h3>Chưa có tool nào</h3><p style="color:#5a6f88;font-size:0.9rem;">Thêm tool vào thư mục <code>tools/</code> và cập nhật <code>tools.json</code>.</p></div>`;
+                grid.innerHTML = `<div class="empty-state"><i class="fas fa-box-open"></i><h3>Chưa có tool nào</h3></div>`;
                 return;
             }
 
@@ -298,7 +293,7 @@
             });
             grid.innerHTML = html;
 
-            // Sau khi render, lấy kích thước file cho từng tool
+            // Lấy kích thước file cho từng tool
             tools.forEach((tool, index) => {
                 const latest = tool.versions[0];
                 if (!latest || !latest.downloadFile) return;
@@ -310,7 +305,7 @@
                     if (sizeStr) {
                         sizeEl.innerHTML = `<i class="fas fa-weight-hanging"></i> ${sizeStr}`;
                     } else {
-                        sizeEl.innerHTML = `<i class="fas fa-weight-hanging"></i> ? (file không tồn tại)`;
+                        sizeEl.innerHTML = `<i class="fas fa-weight-hanging"></i> ? (không tìm thấy)`;
                         sizeEl.style.color = '#fb7185';
                     }
                 });
@@ -320,18 +315,17 @@
         // ----- THỬ FETCH tools.json -----
         fetch('tools.json')
             .then(res => {
-                if (!res.ok) throw new Error(`HTTP ${res.status} – Không tìm thấy tools.json`);
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
                 return res.json();
             })
             .then(data => {
                 renderTools(data);
             })
             .catch(err => {
-                console.warn('Không tải được tools.json, dùng dữ liệu mẫu:', err);
-                // Hiển thị thông báo lỗi nhẹ
+                console.warn('Không tải được tools.json, dùng fallback:', err);
                 const notice = document.createElement('div');
-                notice.style.cssText = 'background:rgba(251,191,36,0.1);border:1px solid #fbbf24;border-radius:12px;padding:0.8rem 1.2rem;margin-bottom:1.5rem;color:#fbbf24;text-align:center;grid-column:1/-1;';
-                notice.innerHTML = `<i class="fas fa-triangle-exclamation"></i> Không tìm thấy file <code>tools.json</code>. Đang hiển thị dữ liệu mẫu. Hãy tạo file <code>tools.json</code> cùng thư mục với <code>index.html</code>.`;
+                notice.className = 'notice';
+                notice.innerHTML = `<i class="fas fa-triangle-exclamation"></i> Không tìm thấy <code>tools.json</code>. Đang hiển thị dữ liệu mẫu. Hãy tạo file <code>tools.json</code> cùng thư mục.`;
                 grid.parentNode.insertBefore(notice, grid);
                 renderTools(FALLBACK_TOOLS);
             });
