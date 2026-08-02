@@ -6,7 +6,6 @@
     <title>Chi tiết Tool</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <style>
-        /* ===== RESET & BASE ===== */
         * { margin:0; padding:0; box-sizing:border-box; }
         body {
             font-family: 'Segoe UI', system-ui, sans-serif;
@@ -17,254 +16,276 @@
         }
         .container { max-width: 900px; margin: 0 auto; }
         .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: #8899b0;
-            text-decoration: none;
-            margin-bottom: 1.5rem;
-            transition: color 0.2s;
+            display:inline-flex;
+            align-items:center;
+            gap:0.5rem;
+            color:#8899b0;
+            text-decoration:none;
+            margin-bottom:1.5rem;
+            transition:color 0.2s;
         }
-        .back-link:hover { color: #a78bfa; }
-
+        .back-link:hover { color:#a78bfa; }
         .tool-header {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
+            display:flex;
+            align-items:center;
+            gap:1.5rem;
+            margin-bottom:1rem;
+            flex-wrap:wrap;
         }
-        .tool-icon {
+        .tool-avatar {
             width: 80px;
             height: 80px;
             border-radius: 16px;
-            object-fit: contain;
             background: rgba(255,255,255,0.05);
-            padding: 6px;
-            flex-shrink: 0;
-        }
-        .tool-icon.emoji {
-            font-size: 3.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: transparent;
-            padding: 0;
-            width: 80px;
-            height: 80px;
+            font-size: 3rem;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .tool-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         .tool-name {
-            font-size: 2rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #a78bfa, #60a5fa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-size:2rem;
+            font-weight:700;
+            background:linear-gradient(135deg, #a78bfa, #60a5fa);
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
         }
         .tool-id {
-            font-size: 0.8rem;
-            color: #5a6f88;
-            font-family: monospace;
-            background: rgba(255,255,255,0.04);
-            padding: 0.2rem 0.7rem;
-            border-radius: 6px;
-            display: inline-block;
+            font-size:0.8rem;
+            color:#5a6f88;
+            font-family:monospace;
+            background:rgba(255,255,255,0.04);
+            padding:0.2rem 0.7rem;
+            border-radius:6px;
+            display:inline-block;
         }
         .tool-description {
-            font-size: 1rem;
-            line-height: 1.7;
-            color: #b0c4db;
-            margin: 0.5rem 0 1.5rem 0;
-            padding: 0.5rem 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size:1rem;
+            line-height:1.7;
+            color:#b0c4db;
+            margin:0.5rem 0 1.5rem 0;
+            padding:0.5rem 0;
+            border-bottom:1px solid rgba(255,255,255,0.05);
         }
         .tool-meta {
-            display: flex;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-            font-size: 0.85rem;
-            color: #8899b0;
-            margin-bottom: 2rem;
+            display:flex;
+            gap:1.5rem;
+            flex-wrap:wrap;
+            font-size:0.85rem;
+            color:#8899b0;
+            margin-bottom:2rem;
         }
-        .tool-meta i { margin-right: 0.3rem; }
-
+        .tool-meta i { margin-right:0.3rem; }
         .version-section {
-            background: rgba(20,28,40,0.5);
-            border-radius: 16px;
-            padding: 1.5rem;
-            border: 1px solid rgba(255,255,255,0.05);
-            margin-bottom: 1.5rem;
+            background:rgba(20,28,40,0.5);
+            border-radius:16px;
+            padding:1.5rem;
+            border:1px solid rgba(255,255,255,0.05);
+            margin-bottom:1.5rem;
         }
         .version-selector {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin-bottom: 1rem;
+            display:flex;
+            align-items:center;
+            gap:1rem;
+            flex-wrap:wrap;
+            margin-bottom:1rem;
         }
         .version-selector label {
-            font-weight: 500;
-            color: #8899b0;
-            font-size: 0.9rem;
+            font-weight:500;
+            color:#8899b0;
+            font-size:0.9rem;
         }
         .version-select {
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.08);
-            color: #e8edf5;
-            padding: 0.4rem 1.8rem 0.4rem 0.8rem;
+            background:rgba(255,255,255,0.06);
+            border:1px solid rgba(255,255,255,0.08);
+            color:#e8edf5;
+            padding:0.4rem 1.8rem 0.4rem 0.8rem;
+            border-radius:8px;
+            font-size:0.9rem;
+            font-weight:500;
+            cursor:pointer;
+            appearance:none;
+            background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238899b0'/%3E%3C/svg%3E");
+            background-repeat:no-repeat;
+            background-position:right 0.75rem center;
+            padding-right:2rem;
+            min-width:160px;
+        }
+        .version-select:focus { border-color:#a78bfa; outline:none; box-shadow:0 0 0 3px rgba(167,139,250,0.15); }
+        .version-tag {
+            font-size:0.7rem;
+            font-weight:600;
+            padding:0.2rem 0.7rem;
+            border-radius:12px;
+            text-transform:uppercase;
+        }
+        .version-tag.stable { background:rgba(52,211,153,0.15); color:#34d399; border:1px solid rgba(52,211,153,0.15); }
+        .version-tag.beta   { background:rgba(251,191,36,0.15);  color:#fbbf24; border:1px solid rgba(251,191,36,0.15); }
+        .version-tag.alpha  { background:rgba(251,113,133,0.15); color:#fb7185; border:1px solid rgba(251,113,133,0.15); }
+
+        /* Changelog accordion cho từng phiên bản tool */
+        .version-changelog-item {
+            margin-bottom: 0.5rem;
+            border: 1px solid rgba(255,255,255,0.05);
             border-radius: 8px;
-            font-size: 0.9rem;
+            overflow: hidden;
+            background: rgba(0,0,0,0.15);
+        }
+        .version-changelog-header {
+            width: 100%;
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: none;
+            color: #e8edf5;
+            font-size: 0.85rem;
             font-weight: 500;
             cursor: pointer;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238899b0'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 0.75rem center;
-            padding-right: 2rem;
-            min-width: 160px;
-        }
-        .version-select:focus { border-color: #a78bfa; outline: none; box-shadow: 0 0 0 3px rgba(167,139,250,0.15); }
-        .version-tag {
-            font-size: 0.7rem;
-            font-weight: 600;
-            padding: 0.2rem 0.7rem;
-            border-radius: 12px;
-            text-transform: uppercase;
-        }
-        .version-tag.stable { background: rgba(52,211,153,0.15); color: #34d399; border: 1px solid rgba(52,211,153,0.15); }
-        .version-tag.beta   { background: rgba(251,191,36,0.15); color: #fbbf24; border: 1px solid rgba(251,191,36,0.15); }
-        .version-tag.alpha  { background: rgba(251,113,133,0.15); color: #fb7185; border: 1px solid rgba(251,113,133,0.15); }
-
-        .changelog {
-            background: rgba(0,0,0,0.2);
-            border-radius: 12px;
-            padding: 0.8rem 1.2rem;
-            margin-top: 0.8rem;
-        }
-        .changelog-header {
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: #8899b0;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 0.4rem;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 0.5rem;
+            transition: background 0.2s;
+            text-align: left;
         }
-        .changelog ul {
+        .version-changelog-header:hover {
+            background: rgba(255,255,255,0.04);
+        }
+        .version-changelog-header .ver-tag {
+            font-size: 0.65rem;
+            padding: 0.15rem 0.6rem;
+            border-radius: 10px;
+            margin-left: 0.5rem;
+        }
+        .version-changelog-header .ver-tag.stable { background: rgba(52,211,153,0.15); color: #34d399; }
+        .version-changelog-header .ver-tag.beta   { background: rgba(251,191,36,0.15); color: #fbbf24; }
+        .version-changelog-header .ver-tag.alpha  { background: rgba(251,113,133,0.15); color: #fb7185; }
+        .version-changelog-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            padding: 0 1rem;
+        }
+        .version-changelog-body.open {
+            max-height: 300px;
+            padding: 0.3rem 1rem 0.8rem 1rem;
+        }
+        .version-changelog-body ul {
             list-style: none;
             padding: 0;
             margin: 0;
         }
-        .changelog li {
-            font-size: 0.9rem;
-            color: #b8cce0;
-            padding: 0.25rem 0 0.25rem 1.5rem;
+        .version-changelog-body ul li {
+            padding: 0.2rem 0 0.2rem 1.3rem;
             position: relative;
+            color: #b8cce0;
+            font-size: 0.85rem;
             line-height: 1.5;
         }
-        .changelog li::before {
-            content: '▸';
+        .version-changelog-body ul li::before {
+            content: '•';
             position: absolute;
             left: 0;
             color: #60a5fa;
         }
-        .changelog li .date-tag {
+        .version-changelog-empty {
             color: #5a6f88;
-            font-size: 0.75rem;
-            margin-left: 0.5rem;
+            font-style: italic;
+            padding: 0.2rem 0;
         }
 
         .download-area {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin-top: 1.2rem;
-            padding-top: 1rem;
-            border-top: 1px solid rgba(255,255,255,0.05);
+            display:flex;
+            align-items:center;
+            gap:1rem;
+            flex-wrap:wrap;
+            margin-top:1.2rem;
+            padding-top:1rem;
+            border-top:1px solid rgba(255,255,255,0.05);
         }
         .btn-download {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.6rem;
-            padding: 0.7rem 1.8rem;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 0.95rem;
-            background: linear-gradient(135deg, #7c3aed, #4f46e5);
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            text-decoration: none;
-            transition: all 0.25s;
+            display:inline-flex;
+            align-items:center;
+            gap:0.6rem;
+            padding:0.7rem 1.8rem;
+            border-radius:10px;
+            font-weight:600;
+            font-size:0.95rem;
+            background:linear-gradient(135deg, #7c3aed, #4f46e5);
+            color:#fff;
+            border:none;
+            cursor:pointer;
+            text-decoration:none;
+            transition:all 0.25s;
         }
-        .btn-download:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(124,58,237,0.35); }
+        .btn-download:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(124,58,237,0.35); }
         .btn-download .file-size {
-            font-weight: 400;
-            font-size: 0.75rem;
-            opacity: 0.7;
+            font-weight:400;
+            font-size:0.75rem;
+            opacity:0.7;
         }
         .btn-download.secondary {
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.08);
-            box-shadow: none;
-            color: #b0c4db;
+            background:rgba(255,255,255,0.06);
+            border:1px solid rgba(255,255,255,0.08);
+            box-shadow:none;
+            color:#b0c4db;
         }
-        .btn-download.secondary:hover { background: rgba(255,255,255,0.1); transform: translateY(-2px); }
-
-        .error-msg { color: #fb7185; padding: 2rem; text-align: center; }
+        .btn-download.secondary:hover { background:rgba(255,255,255,0.1); transform:translateY(-2px); }
+        .error-msg { color:#fb7185; padding:2rem; text-align:center; }
         .toast {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            background: rgba(20,28,40,0.95);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 12px;
-            padding: 0.8rem 1.4rem;
-            font-size: 0.9rem;
-            color: #e8edf5;
-            box-shadow: 0 16px 40px rgba(0,0,0,0.5);
-            transform: translateY(100px);
-            opacity: 0;
-            transition: all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
-            z-index: 999;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
+            position:fixed;
+            bottom:2rem;
+            right:2rem;
+            background:rgba(20,28,40,0.95);
+            backdrop-filter:blur(12px);
+            border:1px solid rgba(255,255,255,0.08);
+            border-radius:12px;
+            padding:0.8rem 1.4rem;
+            font-size:0.9rem;
+            color:#e8edf5;
+            box-shadow:0 16px 40px rgba(0,0,0,0.5);
+            transform:translateY(100px);
+            opacity:0;
+            transition:all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+            z-index:999;
+            display:flex;
+            align-items:center;
+            gap:0.75rem;
         }
-        .toast.show { transform: translateY(0); opacity: 1; }
-        .toast i { color: #34d399; font-size: 1.1rem; }
+        .toast.show { transform:translateY(0); opacity:1; }
+        .toast i { color:#34d399; font-size:1.1rem; }
         .loading-shimmer {
-            display: inline-block;
-            width: 60px;
-            height: 1em;
+            display:inline-block;
+            width:60px;
+            height:1em;
             background: linear-gradient(90deg, #3b4a5e 25%, #5a6f88 50%, #3b4a5e 75%);
             background-size: 200% 100%;
             animation: shimmer 1.5s infinite;
-            border-radius: 4px;
-            vertical-align: middle;
+            border-radius:4px;
+            vertical-align:middle;
         }
         @keyframes shimmer {
             0% { background-position: -200% 0; }
             100% { background-position: 200% 0; }
         }
         .notice {
-            background: rgba(251,191,36,0.1);
-            border: 1px solid #fbbf24;
-            border-radius: 12px;
-            padding: 0.8rem 1.2rem;
-            margin-bottom: 1.5rem;
-            color: #fbbf24;
-            text-align: center;
+            background:rgba(251,191,36,0.1);
+            border:1px solid #fbbf24;
+            border-radius:12px;
+            padding:0.8rem 1.2rem;
+            margin-bottom:1.5rem;
+            color:#fbbf24;
+            text-align:center;
         }
-        @media (max-width: 600px) {
-            body { padding: 1rem; }
-            .tool-header { flex-direction: column; align-items: center; text-align: center; }
-            .version-selector { flex-direction: column; align-items: stretch; }
-            .download-area { flex-direction: column; align-items: stretch; }
+        @media (max-width:600px) {
+            body { padding:1rem; }
+            .tool-header { flex-direction:column; align-items:center; text-align:center; }
+            .version-selector { flex-direction:column; align-items:stretch; }
+            .download-area { flex-direction:column; align-items:stretch; }
         }
     </style>
 </head>
@@ -297,6 +318,7 @@
             toastTimer = setTimeout(() => { toast.classList.remove('show'); toastTimer = null; }, 3500);
         }
 
+        // ----- Lấy kích thước file -----
         function getFileSize(url) {
             return fetch(url, { method: 'HEAD' })
                 .then(res => {
@@ -310,7 +332,6 @@
                 })
                 .catch(() => null);
         }
-
         function formatSize(bytes) {
             if (bytes < 1024) return bytes + ' B';
             if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
@@ -318,30 +339,47 @@
             return (bytes / 1073741824).toFixed(2) + ' GB';
         }
 
-        // ===== FALLBACK DATA =====
-        const FALLBACK_TOOLS = {
-            tools: [
-                { id: "sample-tool", name: "Sample Tool", icon: "sample-tool.png", description: "Một công cụ mẫu.", category: "Utility", author: "dev-team", repo: "https://github.com/your-org/sample-tool", versions: [{ version: "2.0.0", tag: "stable", date: "2025-01-20", downloadFile: "sample-tool-2.0.0.zip", changes: ["🎨 Giao diện mới"] }] }
-            ]
-        };
-
-        const params = new URLSearchParams(window.location.search);
-        const toolId = params.get('id');
-        if (!toolId) {
-            container.innerHTML = `<div class="error-msg"><i class="fas fa-exclamation-triangle"></i> Không có tool ID.</div>`;
-            return;
-        }
-
-        function renderToolFromData(data) {
-            const tools = data.tools || [];
-            const tool = tools.find(t => t.id === toolId);
-            if (!tool) {
-                container.innerHTML = `<div class="error-msg"><i class="fas fa-frown"></i> Không tìm thấy tool "${toolId}"</div>`;
+        // ----- Render version changelog (accordion) -----
+        function renderVersionChangelog(versions) {
+            const container = document.getElementById('versionChangelogContainer');
+            if (!versions || versions.length === 0) {
+                container.innerHTML = '<div class="version-changelog-empty">Không có ghi chú.</div>';
                 return;
             }
-            renderTool(tool);
+            let html = '';
+            versions.forEach((ver, index) => {
+                const isFirst = index === 0;
+                const tagClass = ver.tag === 'stable' ? 'stable' : ver.tag === 'beta' ? 'beta' : 'alpha';
+                html += `
+                    <div class="version-changelog-item">
+                        <button class="version-changelog-header" onclick="toggleVersionChangelog(this)" aria-expanded="${isFirst}">
+                            <span>
+                                <strong>${ver.version}</strong>
+                                <span class="ver-tag ${tagClass}">${ver.tag || 'stable'}</span>
+                                <span style="font-size:0.7rem;color:#5a6f88;margin-left:0.5rem;">${ver.date || ''}</span>
+                            </span>
+                            <i class="fas fa-chevron-down toggle-icon ${isFirst ? 'open' : ''}" style="font-size:0.7rem;color:#8899b0;transition:transform 0.3s;"></i>
+                        </button>
+                        <div class="version-changelog-body ${isFirst ? 'open' : ''}">
+                            <ul>
+                                ${(ver.changes || []).map(change => `<li>${change}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
         }
 
+        window.toggleVersionChangelog = function(btn) {
+            const body = btn.nextElementSibling;
+            const icon = btn.querySelector('.toggle-icon');
+            body.classList.toggle('open');
+            icon.classList.toggle('open');
+            btn.setAttribute('aria-expanded', body.classList.contains('open'));
+        };
+
+        // ----- Render tool chi tiết -----
         function renderTool(tool) {
             const versions = tool.versions || [];
             if (versions.length === 0) {
@@ -349,6 +387,7 @@
                 return;
             }
 
+            // Tạo options cho select
             let optionsHtml = '';
             versions.forEach((v, idx) => {
                 const selected = idx === 0 ? 'selected' : '';
@@ -356,19 +395,17 @@
             });
 
             const defaultVer = versions[0];
-            const tagClass = getTagClass(defaultVer.tag);
+            const tagClass = defaultVer.tag === 'stable' ? 'stable' : defaultVer.tag === 'beta' ? 'beta' : 'alpha';
 
-            // Icon
-            let iconHtml = '';
-            if (tool.icon && tool.icon.includes('.')) {
-                iconHtml = `<img src="images/${tool.icon}" alt="${tool.name}" class="tool-icon" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=\\'tool-icon emoji\\'>🔧</span>';" />`;
-            } else {
-                iconHtml = `<span class="tool-icon emoji">${tool.icon || '🔧'}</span>`;
-            }
+            const iconHtml = tool.icon
+                ? (tool.icon.endsWith('.png') || tool.icon.endsWith('.jpg') || tool.icon.endsWith('.svg')
+                    ? `<img src="images/${tool.icon}" alt="${tool.name}">`
+                    : tool.icon)
+                : '🔧';
 
             const html = `
                 <div class="tool-header">
-                    ${iconHtml}
+                    <div class="tool-avatar">${iconHtml}</div>
                     <div>
                         <div class="tool-name">${tool.name}</div>
                         <div class="tool-id">${tool.id}</div>
@@ -391,9 +428,8 @@
                         <span style="font-size:0.8rem;color:#5a6f88;margin-left:auto;"><i class="far fa-calendar-alt"></i> ${defaultVer.date || ''}</span>
                     </div>
 
-                    <div class="changelog" id="changelog">
-                        <div class="changelog-header"><i class="fas fa-list-ul"></i> Update log</div>
-                        ${renderChangelog(defaultVer.changes, defaultVer.date)}
+                    <div id="versionChangelogContainer">
+                        <!-- JS render -->
                     </div>
 
                     <div class="download-area">
@@ -407,6 +443,9 @@
             `;
 
             container.innerHTML = html;
+
+            // Render changelog accordion cho các phiên bản
+            renderVersionChangelog(versions);
 
             // Lấy kích thước file cho phiên bản mặc định
             const fileUrl = `tools/${tool.id}/${defaultVer.downloadFile}`;
@@ -422,9 +461,9 @@
                 });
             }
 
+            // Sự kiện select
             const select = document.getElementById('versionSelect');
             const tagSpan = document.getElementById('versionTag');
-            const changelogDiv = document.getElementById('changelog');
             const downloadBtn = document.getElementById('downloadBtn');
 
             select.addEventListener('change', function() {
@@ -433,16 +472,15 @@
                 if (!ver) return;
 
                 tagSpan.textContent = ver.tag || 'stable';
-                tagSpan.className = `version-tag ${getTagClass(ver.tag)}`;
+                tagSpan.className = `version-tag ${ver.tag === 'stable' ? 'stable' : ver.tag === 'beta' ? 'beta' : 'alpha'}`;
 
                 const dateSpan = this.parentElement.querySelector('span:last-child');
                 if (dateSpan) dateSpan.innerHTML = `<i class="far fa-calendar-alt"></i> ${ver.date || ''}`;
 
-                changelogDiv.innerHTML = `
-                    <div class="changelog-header"><i class="fas fa-list-ul"></i> Update log</div>
-                    ${renderChangelog(ver.changes, ver.date)}
-                `;
+                // Cập nhật changelog accordion
+                renderVersionChangelog(versions);
 
+                // Cập nhật link download
                 const newFileUrl = `tools/${tool.id}/${ver.downloadFile}`;
                 downloadBtn.href = newFileUrl;
                 const sizeSpan2 = document.getElementById('fileSizeDisplay');
@@ -480,40 +518,45 @@
             });
         }
 
-        function getTagClass(tag) {
-            if (tag === 'stable') return 'stable';
-            if (tag === 'beta') return 'beta';
-            if (tag === 'alpha') return 'alpha';
-            return 'stable';
+        // ----- Lấy tool từ URL và fetch dữ liệu -----
+        const params = new URLSearchParams(window.location.search);
+        const toolId = params.get('id');
+        if (!toolId) {
+            container.innerHTML = `<div class="error-msg"><i class="fas fa-exclamation-triangle"></i> Không có tool ID.</div>`;
+        } else {
+            fetch('tools.json')
+                .then(res => res.ok ? res.json() : Promise.reject('tools.json'))
+                .then(data => {
+                    const tool = data.tools.find(t => t.id === toolId);
+                    if (tool) {
+                        renderTool(tool);
+                    } else {
+                        container.innerHTML = `<div class="error-msg"><i class="fas fa-frown"></i> Không tìm thấy tool "${toolId}"</div>`;
+                    }
+                })
+                .catch(err => {
+                    console.warn('Lỗi tải tools.json, dùng fallback:', err);
+                    // Fallback
+                    const fallbackTool = {
+                        id: "GSAutoClicker-Rework",
+                        name: "GS AutoClicker Rework",
+                        icon: "gsautoclicker-rework.png",
+                        description: "Công cụ auto clicker mạnh mẽ.",
+                        category: "Utility",
+                        author: "dev-team",
+                        repo: "https://github.com/KHACK54321/AMT-Project",
+                        versions: [
+                            { version: "1.0.0", tag: "stable", date: "2025-01-20", downloadFile: "gsautoclicker-rework.zip", changes: ["🎨 Giao diện mới"] },
+                            { version: "beta-0.0.1", tag: "beta", date: "2024-10-15", downloadFile: "gsautoclicker-rework.zip", changes: ["🧪 Bản beta"] }
+                        ]
+                    };
+                    renderTool(fallbackTool);
+                    const notice = document.createElement('div');
+                    notice.className = 'notice';
+                    notice.innerHTML = `<i class="fas fa-triangle-exclamation"></i> Không tìm thấy <code>tools.json</code>. Đang dùng dữ liệu mẫu.`;
+                    container.parentNode.insertBefore(notice, container);
+                });
         }
-
-        function renderChangelog(changes, date) {
-            if (!changes || changes.length === 0) {
-                return '<div style="color:#5a6f88;font-style:italic;padding:0.2rem 0;">Không có ghi chú.</div>';
-            }
-            let html = '<ul>';
-            changes.forEach(item => {
-                html += `<li>${item} ${date ? `<span class="date-tag">· ${date}</span>` : ''}</li>`;
-            });
-            html += '</ul>';
-            return html;
-        }
-
-        // ===== FETCH tools.json =====
-        fetch('tools.json')
-            .then(res => {
-                if (!res.ok) throw new Error(`HTTP ${res.status}`);
-                return res.json();
-            })
-            .then(data => renderToolFromData(data))
-            .catch(err => {
-                console.warn('Không tải được tools.json, dùng fallback:', err);
-                const notice = document.createElement('div');
-                notice.className = 'notice';
-                notice.innerHTML = `<i class="fas fa-triangle-exclamation"></i> Không tìm thấy <code>tools.json</code>. Đang hiển thị dữ liệu mẫu.`;
-                container.parentNode.insertBefore(notice, container);
-                renderToolFromData(FALLBACK_TOOLS);
-            });
     })();
 </script>
 </body>
